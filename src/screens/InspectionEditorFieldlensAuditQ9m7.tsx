@@ -137,7 +137,7 @@ export function InspectionEditorFieldlensAuditQ9m7({ actions, record }: Inspecti
       </div>
       </aside>
       {/* Main Workspace */}
-      <div className="flex-1 flex flex-col h-screen md:ml-60">
+      <div className="flex-1 flex flex-col h-screen md:ml-60 md:w-[calc(100%-15rem)]">
       {/* TopAppBar (Shared Component) */}
       <header className="flex justify-between items-center px-margin-desktop w-full h-16 bg-surface-container-lowest border-b border-outline-variant shrink-0 z-10">
       {/* Search Bar (on_left configuration) */}
