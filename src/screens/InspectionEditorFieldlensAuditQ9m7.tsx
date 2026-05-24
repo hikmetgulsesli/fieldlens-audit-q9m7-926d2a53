@@ -8,15 +8,79 @@
 // 4. Replace placeholder data with props/state
 
 import { ArrowLeft, Circle, Info, Plus, Save, Search, Settings, TriangleAlert, User } from "lucide-react";
+import type { FieldLensChecklistItem, FieldLensChecklistResult, FieldLensInspectionRecord } from "../features/fieldlens-audit-q9m7/fieldlens-audit-q9m7.store";
 
 
 export type InspectionEditorFieldlensAuditQ9m7ActionId = "new-inspection-1" | "button-2-2" | "button-3-3" | "button-4-4" | "button-5-5" | "cancel-6" | "save-inspection-7" | "pass-8" | "fail-9" | "n-a-10" | "pass-11" | "fail-12" | "n-a-13" | "pass-14" | "fail-15" | "n-a-16" | "pass-17" | "fail-18" | "n-a-19" | "dashboard-1" | "inspections-2" | "sites-3" | "assets-4" | "reports-5" | "help-6" | "logout-7";
 
 export interface InspectionEditorFieldlensAuditQ9m7Props {
   actions?: Partial<Record<InspectionEditorFieldlensAuditQ9m7ActionId, () => void>>;
+  record?: FieldLensInspectionRecord | null;
 }
 
-export function InspectionEditorFieldlensAuditQ9m7({ actions }: InspectionEditorFieldlensAuditQ9m7Props) {
+const checklistActionIds = [
+  { pass: "pass-8", fail: "fail-9", na: "n-a-10" },
+  { pass: "pass-11", fail: "fail-12", na: "n-a-13" },
+  { pass: "pass-14", fail: "fail-15", na: "n-a-16" },
+  { pass: "pass-17", fail: "fail-18", na: "n-a-19" },
+] as const;
+
+const fallbackChecklist: FieldLensChecklistItem[] = [
+  { id: "ppe", label: "PPE and lockout verified", result: "na" },
+  { id: "housing", label: "Housing and access panels intact", result: "na" },
+  { id: "pressure", label: "Pressure readings within range", result: "na" },
+  { id: "photos", label: "Photo evidence attached", result: "na" },
+];
+
+function resultButtonClass(result: FieldLensChecklistResult, active: FieldLensChecklistResult) {
+  if (result !== active) {
+    return "px-md font-label-md text-label-md border-r border-outline-variant text-on-surface-variant hover:bg-surface-container-highest transition-colors";
+  }
+
+  if (active === "fail") {
+    return "px-md font-label-md text-label-md border-r border-outline-variant bg-error text-on-error font-bold flex items-center gap-xs transition-colors";
+  }
+
+  return "px-md font-label-md text-label-md border-r border-outline-variant bg-tertiary-container text-on-tertiary-container font-bold flex items-center gap-xs transition-colors";
+}
+
+function naButtonClass(result: FieldLensChecklistResult) {
+  return result === "na"
+    ? "px-md font-label-md text-label-md bg-tertiary-container text-on-tertiary-container font-bold flex items-center gap-xs transition-colors"
+    : "px-md font-label-md text-label-md text-on-surface-variant hover:bg-surface-container-highest transition-colors";
+}
+
+function checklistAccent(result: FieldLensChecklistResult) {
+  if (result === "pass") {
+    return "absolute left-0 top-0 bottom-0 w-1 bg-tertiary-container hidden lg:block";
+  }
+
+  if (result === "fail") {
+    return "absolute left-0 top-0 bottom-0 w-1 bg-error hidden lg:block";
+  }
+
+  return "absolute left-0 top-0 bottom-0 w-1 bg-secondary-fixed-dim hidden lg:block";
+}
+
+function formatStatus(status?: string) {
+  if (status === "in-progress") {
+    return "In Progress";
+  }
+
+  if (!status) {
+    return "Draft";
+  }
+
+  return status.charAt(0).toUpperCase() + status.slice(1);
+}
+
+export function InspectionEditorFieldlensAuditQ9m7({ actions, record }: InspectionEditorFieldlensAuditQ9m7Props) {
+  const checklist = record?.checklist.length ? record.checklist : fallbackChecklist;
+  const completedCount = checklist.filter((item) => item.result !== "na").length;
+  const failedCount = checklist.filter((item) => item.result === "fail").length;
+  const notes = failedCount
+    ? `${failedCount} failed checklist item${failedCount === 1 ? "" : "s"} require remediation before closeout.`
+    : "No failed checklist items recorded for this inspection.";
   return (
     <>
       {/* SideNavBar (Shared Component) */}
@@ -111,13 +175,13 @@ export function InspectionEditorFieldlensAuditQ9m7({ actions }: InspectionEditor
       </button>
       <div>
       <h2 className="font-headline-md text-headline-md font-bold text-on-surface flex items-center gap-sm">
-                                      Audit Q9M7
+                                      {record?.id ?? "Audit Q9M7"}
                                       <span className="bg-error-container text-on-error-container font-label-sm px-2 py-0.5 rounded-full border border-error/20 flex items-center gap-xs">
       <span className="w-1.5 h-1.5 rounded-full bg-error"></span>
                                           Unsaved Changes
                                       </span>
       </h2>
-      <p className="font-body-md text-body-md text-on-surface-variant mt-xs">SURF_INSPECTION_EDITOR • Form ID: 899-AX</p>
+      <p className="font-body-md text-body-md text-on-surface-variant mt-xs">SURF_INSPECTION_EDITOR • {formatStatus(record?.status)} • {record?.asset ?? "No asset selected"}</p>
       </div>
       </div>
       <div className="flex items-center gap-sm">
@@ -149,7 +213,7 @@ export function InspectionEditorFieldlensAuditQ9m7({ actions }: InspectionEditor
                                               Inspection Name 
                                               <span className="text-error font-bold" title="Required Field">*</span>
       </label>
-      <input className="h-10 w-full px-sm border-2 border-error rounded-lg bg-error-container/10 font-body-md text-on-surface focus:outline-none focus:ring-0 transition-colors" placeholder="e.g., Q3 Safety Walkthrough" type="text" defaultValue="" />
+      <input className="h-10 w-full px-sm border-2 border-error rounded-lg bg-error-container/10 font-body-md text-on-surface focus:outline-none focus:ring-0 transition-colors" placeholder="e.g., Q3 Safety Walkthrough" type="text" readOnly={true} value={record?.asset ?? ""} />
       <div className="flex items-center gap-xs text-error font-label-sm mt-xs">
       <Circle className="text-[14px]" aria-hidden={true} focusable="false" />
                                               Inspection Name is required to save.
@@ -161,9 +225,9 @@ export function InspectionEditorFieldlensAuditQ9m7({ actions }: InspectionEditor
                                               Site Location
                                           </label>
       <div className="relative">
-      <select className="h-10 w-full px-sm pr-xl border border-outline-variant rounded-lg bg-surface-container-lowest font-body-md text-on-surface focus:border-primary focus:border-2 focus:outline-none appearance-none transition-colors cursor-pointer">
-      <option disabled={true} selected={true} value="">Select a facility...</option>
-      <option value="site-a">Northwind Processing Plant (Sector 4)</option>
+      <select className="h-10 w-full px-sm pr-xl border border-outline-variant rounded-lg bg-surface-container-lowest font-body-md text-on-surface focus:border-primary focus:border-2 focus:outline-none appearance-none transition-colors cursor-pointer" value={record?.site ?? ""} onChange={() => undefined}>
+      <option disabled={true} value="">Select a facility...</option>
+      <option value={record?.site ?? "site-a"}>{record?.site ?? "Northwind Processing Plant (Sector 4)"}</option>
       <option value="site-b">Delta Storage Facility</option>
       <option value="site-c">Offshore Platform Alpha</option>
       </select>
@@ -177,7 +241,7 @@ export function InspectionEditorFieldlensAuditQ9m7({ actions }: InspectionEditor
                                           </label>
       <div className="relative">
       <User className="absolute left-sm top-1/2 -translate-y-1/2 text-on-surface-variant text-[18px]" aria-hidden={true} focusable="false" />
-      <input className="h-10 w-full pl-xl pr-sm border border-outline-variant rounded-lg bg-surface-container-low font-body-md text-on-surface-variant cursor-not-allowed focus:outline-none" readOnly={true} type="text" value="Dr. Aris Thorne" />
+      <input className="h-10 w-full pl-xl pr-sm border border-outline-variant rounded-lg bg-surface-container-low font-body-md text-on-surface-variant cursor-not-allowed focus:outline-none" readOnly={true} type="text" value={record?.inspector ?? ""} />
       </div>
       </div>
       {/* Date Picker */}
@@ -187,7 +251,7 @@ export function InspectionEditorFieldlensAuditQ9m7({ actions }: InspectionEditor
                                           </label>
       <div className="relative">
       <Circle className="absolute left-sm top-1/2 -translate-y-1/2 text-on-surface-variant text-[18px]" aria-hidden={true} focusable="false" />
-      <input className="h-10 w-full pl-xl pr-sm border border-outline-variant rounded-lg bg-surface-container-lowest font-body-md text-on-surface focus:border-primary focus:border-2 focus:outline-none transition-colors" type="date" defaultValue="2023-10-24" />
+      <input className="h-10 w-full pl-xl pr-sm border border-outline-variant rounded-lg bg-surface-container-lowest font-body-md text-on-surface focus:border-primary focus:border-2 focus:outline-none transition-colors" type="date" readOnly={true} value={(record?.updatedAt ?? "").slice(0, 10)} />
       </div>
       </div>
       </div>
@@ -205,87 +269,41 @@ export function InspectionEditorFieldlensAuditQ9m7({ actions }: InspectionEditor
                                           </h3>
       <p className="font-label-md text-label-md text-on-surface-variant mt-xs">Complete all mandatory checkpoints.</p>
       </div>
-      <span className="font-label-sm text-label-sm bg-surface-container-high text-on-surface-variant px-2 py-1 rounded">1/4 Completed</span>
+      <span className="font-label-sm text-label-sm bg-surface-container-high text-on-surface-variant px-2 py-1 rounded">{completedCount}/{checklist.length} Completed</span>
       </div>
       <div className="flex flex-col">
-      {/* Checklist Item 1: Pass State */}
-      <div className="flex flex-col lg:flex-row lg:items-center justify-between p-md border-b border-outline-variant hover:bg-surface-container-low transition-colors gap-md relative">
-      {/* Edge accent indicating Pass status implicitly */}
-      <div className="absolute left-0 top-0 bottom-0 w-1 bg-tertiary-container hidden lg:block"></div>
+      {checklist.slice(0, 4).map((item, index) => {
+        const actionIds = checklistActionIds[index];
+        const itemNumber = `1.${index + 1}`;
+        const isLast = index === Math.min(checklist.length, 4) - 1;
+
+        return (
+      <div className={`flex flex-col lg:flex-row lg:items-center justify-between p-md ${isLast ? "" : "border-b border-outline-variant"} hover:bg-surface-container-low transition-colors gap-md relative`} key={item.id}>
+      <div className={checklistAccent(item.result)}></div>
       <div className="flex-1 lg:pl-sm">
-      <h4 className="font-body-md text-body-md font-medium text-on-surface">1.1 Load-bearing pillar foundation check</h4>
-      <p className="font-label-md text-label-md text-on-surface-variant mt-xs">Visual inspection for micro-fractures.</p>
-      </div>
-      {/* Utilitarian Segmented Control */}
-      <div className="flex border border-outline-variant rounded-lg overflow-hidden shrink-0 h-9 bg-surface-container-lowest">
-      <button className="px-md font-label-md text-label-md border-r border-outline-variant bg-tertiary-container text-on-tertiary-container font-bold flex items-center gap-xs transition-colors" type="button" data-action-id="pass-8" onClick={actions?.["pass-8"]}>
-      <Circle className="text-[16px] icon-fill" aria-hidden={true} focusable="false" /> Pass
-                                              </button>
-      <button className="px-md font-label-md text-label-md border-r border-outline-variant text-on-surface-variant hover:bg-surface-container-highest transition-colors" type="button" data-action-id="fail-9" onClick={actions?.["fail-9"]}>
-                                                  Fail
-                                              </button>
-      <button className="px-md font-label-md text-label-md text-on-surface-variant hover:bg-surface-container-highest transition-colors" type="button" data-action-id="n-a-10" onClick={actions?.["n-a-10"]}>
-                                                  N/A
-                                              </button>
-      </div>
-      </div>
-      {/* Checklist Item 2: Fail State */}
-      <div className="flex flex-col lg:flex-row lg:items-center justify-between p-md border-b border-outline-variant hover:bg-surface-container-low transition-colors gap-md relative">
-      <div className="absolute left-0 top-0 bottom-0 w-1 bg-error hidden lg:block"></div>
-      <div className="flex-1 lg:pl-sm">
-      <h4 className="font-body-md text-body-md font-medium text-on-surface">1.2 Overhead crane track alignment</h4>
+      <h4 className="font-body-md text-body-md font-medium text-on-surface">{itemNumber} {item.label}</h4>
+      {item.result === "fail" ? (
       <p className="font-label-md text-label-md text-error mt-xs flex items-center gap-xs">
-      <TriangleAlert className="text-[14px]" aria-hidden={true} focusable="false" /> Deviation detected &gt; 2mm.
+      <TriangleAlert className="text-[14px]" aria-hidden={true} focusable="false" /> Requires remediation.
                                               </p>
+      ) : (
+      <p className="font-label-md text-label-md text-on-surface-variant mt-xs">Current result: {item.result.toUpperCase()}.</p>
+      )}
       </div>
       <div className="flex border border-outline-variant rounded-lg overflow-hidden shrink-0 h-9 bg-surface-container-lowest">
-      <button className="px-md font-label-md text-label-md border-r border-outline-variant text-on-surface-variant hover:bg-surface-container-highest transition-colors" type="button" data-action-id="pass-11" onClick={actions?.["pass-11"]}>
-                                                  Pass
+      <button className={resultButtonClass(item.result, "pass")} type="button" data-action-id={actionIds.pass} onClick={actions?.[actionIds.pass]}>
+      {item.result === "pass" ? <Circle className="text-[16px] icon-fill" aria-hidden={true} focusable="false" /> : null} Pass
                                               </button>
-      <button className="px-md font-label-md text-label-md border-r border-outline-variant bg-error text-on-error font-bold flex items-center gap-xs transition-colors" type="button" data-action-id="fail-12" onClick={actions?.["fail-12"]}>
-      <Circle className="text-[16px] icon-fill" aria-hidden={true} focusable="false" /> Fail
+      <button className={resultButtonClass(item.result, "fail")} type="button" data-action-id={actionIds.fail} onClick={actions?.[actionIds.fail]}>
+      {item.result === "fail" ? <Circle className="text-[16px] icon-fill" aria-hidden={true} focusable="false" /> : null} Fail
                                               </button>
-      <button className="px-md font-label-md text-label-md text-on-surface-variant hover:bg-surface-container-highest transition-colors" type="button" data-action-id="n-a-13" onClick={actions?.["n-a-13"]}>
-                                                  N/A
-                                              </button>
-      </div>
-      </div>
-      {/* Checklist Item 3: Unanswered */}
-      <div className="flex flex-col lg:flex-row lg:items-center justify-between p-md border-b border-outline-variant hover:bg-surface-container-low transition-colors gap-md relative">
-      <div className="flex-1 lg:pl-sm">
-      <h4 className="font-body-md text-body-md font-medium text-on-surface">1.3 Ventilation duct integrity</h4>
-      <p className="font-label-md text-label-md text-on-surface-variant mt-xs">Check for seal degradation.</p>
-      </div>
-      <div className="flex border border-outline-variant rounded-lg overflow-hidden shrink-0 h-9 bg-surface-container-lowest focus-within:border-primary focus-within:ring-1 focus-within:ring-primary">
-      <button className="px-md font-label-md text-label-md border-r border-outline-variant text-on-surface-variant hover:bg-surface-container-highest transition-colors" type="button" data-action-id="pass-14" onClick={actions?.["pass-14"]}>
-                                                  Pass
-                                              </button>
-      <button className="px-md font-label-md text-label-md border-r border-outline-variant text-on-surface-variant hover:bg-surface-container-highest transition-colors" type="button" data-action-id="fail-15" onClick={actions?.["fail-15"]}>
-                                                  Fail
-                                              </button>
-      <button className="px-md font-label-md text-label-md text-on-surface-variant hover:bg-surface-container-highest transition-colors" type="button" data-action-id="n-a-16" onClick={actions?.["n-a-16"]}>
-                                                  N/A
+      <button className={naButtonClass(item.result)} type="button" data-action-id={actionIds.na} onClick={actions?.[actionIds.na]}>
+      {item.result === "na" ? <Circle className="text-[16px] icon-fill" aria-hidden={true} focusable="false" /> : null} N/A
                                               </button>
       </div>
       </div>
-      {/* Checklist Item 4: Unanswered */}
-      <div className="flex flex-col lg:flex-row lg:items-center justify-between p-md hover:bg-surface-container-low transition-colors gap-md relative">
-      <div className="flex-1 lg:pl-sm">
-      <h4 className="font-body-md text-body-md font-medium text-on-surface">1.4 Emergency exit route clearance</h4>
-      <p className="font-label-md text-label-md text-on-surface-variant mt-xs">Path must be unobstructed min 36".</p>
-      </div>
-      <div className="flex border border-outline-variant rounded-lg overflow-hidden shrink-0 h-9 bg-surface-container-lowest">
-      <button className="px-md font-label-md text-label-md border-r border-outline-variant text-on-surface-variant hover:bg-surface-container-highest transition-colors" type="button" data-action-id="pass-17" onClick={actions?.["pass-17"]}>
-                                                  Pass
-                                              </button>
-      <button className="px-md font-label-md text-label-md border-r border-outline-variant text-on-surface-variant hover:bg-surface-container-highest transition-colors" type="button" data-action-id="fail-18" onClick={actions?.["fail-18"]}>
-                                                  Fail
-                                              </button>
-      <button className="px-md font-label-md text-label-md text-on-surface-variant hover:bg-surface-container-highest transition-colors" type="button" data-action-id="n-a-19" onClick={actions?.["n-a-19"]}>
-                                                  N/A
-                                              </button>
-      </div>
-      </div>
+        );
+      })}
       </div>
       </div>
       {/* Evidence & Notes Card */}
@@ -297,7 +315,7 @@ export function InspectionEditorFieldlensAuditQ9m7({ actions }: InspectionEditor
       <div className="flex flex-col gap-md">
       <div className="flex flex-col">
       <label className="font-label-md text-label-md text-on-surface mb-xs">Observations / Remediation Steps</label>
-      <textarea className="w-full h-32 p-sm border border-outline-variant rounded-lg bg-surface-container-lowest font-body-md text-on-surface resize-none focus:border-primary focus:border-2 focus:outline-none transition-colors" placeholder="Log detailed findings here. For failed items, mandate corrective actions...">Track deviation noted on item 1.2 requires immediate recalibration by maintenance crew before end of shift. Foundation micro-fractures (1.1) within acceptable tolerance per spec D-45.</textarea>
+      <textarea className="w-full h-32 p-sm border border-outline-variant rounded-lg bg-surface-container-lowest font-body-md text-on-surface resize-none focus:border-primary focus:border-2 focus:outline-none transition-colors" placeholder="Log detailed findings here. For failed items, mandate corrective actions..." readOnly={true} value={notes}></textarea>
       </div>
       <div className="flex flex-col">
       <label className="font-label-md text-label-md text-on-surface mb-xs">Attachments</label>

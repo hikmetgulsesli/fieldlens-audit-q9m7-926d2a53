@@ -62,9 +62,9 @@ export default function App() {
     'button-9-9': previousInspectionPage,
     'button-10-10': nextInspectionPage,
     'edit-8': openRecordAt(0),
-    'view-9': openRecordAt(0),
-    'edit-10': openRecordAt(1),
-    'view-11': openRecordAt(1),
+    'view-9': openRecordAt(1),
+    'edit-10': openRecordAt(2),
+    'view-11': openRecordAt(3),
   };
 
   const editorActions: Partial<Record<InspectionEditorFieldlensAuditQ9m7ActionId, () => void>> = {
@@ -133,11 +133,11 @@ export default function App() {
         </div>
       </section>
       {state.activePanel === 'editor' ? (
-        <InspectionEditorFieldlensAuditQ9m7 actions={editorActions} />
+        <InspectionEditorFieldlensAuditQ9m7 actions={editorActions} record={snapshot.selectedRecord} />
       ) : state.activePanel === 'recovery' ? (
         <EmptyAndErrorRecoveryFieldlensAuditQ9m7 actions={recoveryActions} />
       ) : (
-        <InspectionOperationsFieldlensAuditQ9m7 actions={operationsActions} />
+        <InspectionOperationsFieldlensAuditQ9m7 actions={operationsActions} counts={snapshot.counts} records={visibleRecords.records} total={visibleRecords.total} />
       )}
     </div>
   );
