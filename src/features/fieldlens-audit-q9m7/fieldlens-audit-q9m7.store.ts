@@ -44,6 +44,7 @@ export interface FieldLensAppSnapshot {
   itemCounts: FieldLensCounts;
   storageStatus: FieldLensStorageStatus;
   lastError: string | null;
+  statusMessage: string;
   activePanel: FieldLensPanel;
   offlineMode: boolean;
 }
@@ -59,6 +60,7 @@ export interface FieldLensStoreState extends FieldLensPersistedState {
   records: FieldLensInspectionRecord[];
   storageStatus: FieldLensStorageStatus;
   lastError: string | null;
+  statusMessage: string;
 }
 
 export interface FieldLensStore {
@@ -77,6 +79,7 @@ export interface FieldLensStore {
     refresh: () => void;
     workOffline: () => void;
     retryConnection: () => void;
+    clearWorkspaceData: () => void;
     logout: () => void;
   };
 }
@@ -108,6 +111,7 @@ export function createFieldLensInitialState(
     offlineMode: Boolean(persisted?.offlineMode),
     storageStatus: persisted?.offlineMode ? 'offline' : 'ready',
     lastError: null,
+    statusMessage: persisted?.offlineMode ? 'Working offline with saved route data.' : 'Local workspace ready.',
   };
 }
 
@@ -139,6 +143,7 @@ export function getFieldLensSnapshot(state: FieldLensStoreState): FieldLensAppSn
     itemCounts: getFieldLensCounts(state.records),
     storageStatus: state.storageStatus,
     lastError: state.lastError,
+    statusMessage: state.statusMessage,
     activePanel: state.activePanel,
     offlineMode: state.offlineMode,
   };
@@ -203,6 +208,7 @@ export function useFieldLensAuditStore(
       activePanel: 'recovery',
       storageStatus: 'error',
       lastError: persisted.error,
+      statusMessage: 'Saved workspace data needs recovery.',
     };
   });
 
@@ -225,6 +231,7 @@ export function useFieldLensAuditStore(
         activePanel: 'recovery',
         storageStatus: 'error',
         lastError: 'FieldLens could not save workspace preferences.',
+        statusMessage: 'FieldLens could not save workspace preferences.',
       }));
     }
   }, [state, storage]);
@@ -235,11 +242,18 @@ export function useFieldLensAuditStore(
       activeRoute: route,
       activePanel: route === 'inspections' ? 'operations' : current.activePanel,
       lastError: null,
+      statusMessage: `Navigation changed to ${route}.`,
     }));
   }, []);
 
   const openOperations = useCallback(() => {
-    setState((current) => ({ ...current, activeRoute: 'inspections', activePanel: 'operations', lastError: null }));
+    setState((current) => ({
+      ...current,
+      activeRoute: 'inspections',
+      activePanel: 'operations',
+      lastError: null,
+      statusMessage: 'Inspection operations ready.',
+    }));
   }, []);
 
   const openEditor = useCallback((recordId?: string) => {
@@ -249,17 +263,19 @@ export function useFieldLensAuditStore(
       activePanel: 'editor',
       selectedRecordId: recordId ?? current.selectedRecordId ?? current.records[0]?.id ?? null,
       lastError: null,
+      statusMessage: 'Inspection editor opened.',
     }));
   }, []);
 
   const openRecovery = useCallback((message = 'FieldLens is showing a recoverable workspace state.') => {
-    setState((current) => ({ ...current, activePanel: 'recovery', storageStatus: 'error', lastError: message }));
+    setState((current) => ({ ...current, activePanel: 'recovery', storageStatus: 'error', lastError: message, statusMessage: message }));
   }, []);
 
   const selectRecord = useCallback((recordId: string | null) => {
     setState((current) => ({
       ...current,
       selectedRecordId: recordId && current.records.some((record) => record.id === recordId) ? recordId : null,
+      statusMessage: recordId ? 'Inspection selected.' : 'Inspection selection cleared.',
     }));
   }, []);
 
@@ -289,6 +305,7 @@ export function useFieldLensAuditStore(
         activeRoute: 'inspections',
         activePanel: 'editor',
         lastError: null,
+        statusMessage: 'New inspection created.',
       };
     });
   }, []);
@@ -305,6 +322,7 @@ export function useFieldLensAuditStore(
             }
           : record,
       ),
+      statusMessage: 'Checklist result updated.',
     }));
   }, []);
 
@@ -316,27 +334,67 @@ export function useFieldLensAuditStore(
         record.id === current.selectedRecordId ? { ...record, status: 'completed', updatedAt: new Date().toISOString() } : record,
       ),
       lastError: null,
+      statusMessage: 'Inspection saved.',
     }));
   }, []);
 
   const cancelEditing = useCallback(() => {
-    setState((current) => ({ ...current, activePanel: 'operations', lastError: null }));
+    setState((current) => ({ ...current, activePanel: 'operations', lastError: null, statusMessage: 'Editing canceled.' }));
   }, []);
 
   const refresh = useCallback(() => {
-    setState((current) => ({ ...current, storageStatus: current.offlineMode ? 'offline' : 'ready', lastError: null }));
+    setState((current) => ({
+      ...current,
+      storageStatus: current.offlineMode ? 'offline' : 'ready',
+      lastError: null,
+      statusMessage: current.offlineMode ? 'Offline workspace refreshed.' : 'Local workspace refreshed.',
+    }));
   }, []);
 
   const workOffline = useCallback(() => {
-    setState((current) => ({ ...current, offlineMode: true, storageStatus: 'offline', activePanel: 'operations', lastError: null }));
+    setState((current) => ({
+      ...current,
+      offlineMode: true,
+      storageStatus: 'offline',
+      activePanel: 'operations',
+      lastError: null,
+      statusMessage: 'Working offline with local inspection data.',
+    }));
   }, []);
 
   const retryConnection = useCallback(() => {
-    setState((current) => ({ ...current, offlineMode: false, storageStatus: 'ready', activePanel: 'operations', lastError: null }));
+    setState((current) => ({
+      ...current,
+      offlineMode: false,
+      storageStatus: 'ready',
+      activePanel: 'operations',
+      lastError: null,
+      statusMessage: 'Connection retry succeeded; local storage is ready.',
+    }));
   }, []);
 
+  const clearWorkspaceData = useCallback(() => {
+    setState(() => {
+      try {
+        storage?.removeItem(FIELDLENS_STORAGE_KEY);
+        return {
+          ...createFieldLensInitialState(records),
+          statusMessage: 'Local workspace data cleared.',
+        };
+      } catch {
+        return {
+          ...createFieldLensInitialState(records),
+          activePanel: 'recovery',
+          storageStatus: 'error',
+          lastError: 'FieldLens could not clear local workspace data.',
+          statusMessage: 'FieldLens could not clear local workspace data.',
+        };
+      }
+    });
+  }, [records, storage]);
+
   const logout = useCallback(() => {
-    setState((current) => ({ ...current, selectedRecordId: null, activePanel: 'operations' }));
+    setState((current) => ({ ...current, selectedRecordId: null, activePanel: 'operations', statusMessage: 'Signed out of the local shell.' }));
   }, []);
 
   return {
@@ -355,6 +413,7 @@ export function useFieldLensAuditStore(
       refresh,
       workOffline,
       retryConnection,
+      clearWorkspaceData,
       logout,
     },
   };

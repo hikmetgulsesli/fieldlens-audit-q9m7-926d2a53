@@ -13,7 +13,7 @@ const repository = createFieldLensAuditRepository();
 const records = repository.listInspections();
 
 export default function App() {
-  const { state, actions } = useFieldLensAuditStore(records);
+  const { state, snapshot, actions } = useFieldLensAuditStore(records);
 
   const navigationActions = {
     'dashboard-1': () => actions.navigate('dashboard'),
@@ -68,6 +68,30 @@ export default function App() {
       data-active-panel={state.activePanel}
       className="min-h-screen bg-slate-50 text-slate-950"
     >
+      <section
+        aria-label="FieldLens workspace status"
+        className="border-b border-slate-200 bg-white px-4 py-3 text-sm shadow-sm"
+      >
+        <div className="mx-auto flex max-w-7xl flex-wrap items-center justify-between gap-3">
+          <div className="flex flex-wrap items-center gap-x-4 gap-y-1">
+            <strong className="text-slate-950">FieldLens Audit Q9M7</strong>
+            <span>Route: {snapshot.activeRoute}</span>
+            <span>Panel: {snapshot.activePanel}</span>
+            <span>Inspections: {snapshot.counts.inspections}</span>
+            <span>Storage: {snapshot.storageStatus}</span>
+          </div>
+          <button
+            type="button"
+            onClick={actions.clearWorkspaceData}
+            className="rounded border border-slate-300 px-3 py-1.5 font-medium text-slate-700 hover:bg-slate-100"
+          >
+            Clear local data
+          </button>
+          <p className="basis-full text-slate-600" role={snapshot.lastError ? 'alert' : 'status'}>
+            {snapshot.lastError ?? snapshot.statusMessage}
+          </p>
+        </div>
+      </section>
       {state.activePanel === 'editor' ? (
         <InspectionEditorFieldlensAuditQ9m7 actions={editorActions} />
       ) : state.activePanel === 'recovery' ? (
