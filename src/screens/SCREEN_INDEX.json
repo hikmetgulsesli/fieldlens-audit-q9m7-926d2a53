@@ -1,0 +1,426 @@
+[
+  {
+    "screenId": "03fdea6a00ef49028a56ff9d952e45c5",
+    "title": "Empty and Error Recovery - FieldLens Audit Q9M7",
+    "componentName": "EmptyAndErrorRecoveryFieldlensAuditQ9m7",
+    "file": "src/screens/EmptyAndErrorRecoveryFieldlensAuditQ9m7.tsx",
+    "buttons": 7,
+    "inputs": 1,
+    "links": 7,
+    "actions": [
+      {
+        "id": "new-inspection-1",
+        "kind": "button",
+        "label": "New Inspection",
+        "index": 0
+      },
+      {
+        "id": "button-2-2",
+        "kind": "button",
+        "label": "Button 2",
+        "index": 1
+      },
+      {
+        "id": "button-3-3",
+        "kind": "button",
+        "label": "Button 3",
+        "index": 2
+      },
+      {
+        "id": "button-4-4",
+        "kind": "button",
+        "label": "Button 4",
+        "index": 3
+      },
+      {
+        "id": "button-5-5",
+        "kind": "button",
+        "label": "Button 5",
+        "index": 4
+      },
+      {
+        "id": "work-offline-6",
+        "kind": "button",
+        "label": "Work Offline",
+        "index": 5
+      },
+      {
+        "id": "retry-connection-7",
+        "kind": "button",
+        "label": "Retry Connection",
+        "index": 6
+      },
+      {
+        "id": "dashboard-1",
+        "kind": "link",
+        "label": "Dashboard",
+        "href": "#",
+        "index": 0
+      },
+      {
+        "id": "inspections-2",
+        "kind": "link",
+        "label": "Inspections",
+        "href": "#",
+        "index": 1
+      },
+      {
+        "id": "sites-3",
+        "kind": "link",
+        "label": "Sites",
+        "href": "#",
+        "index": 2
+      },
+      {
+        "id": "assets-4",
+        "kind": "link",
+        "label": "Assets",
+        "href": "#",
+        "index": 3
+      },
+      {
+        "id": "reports-5",
+        "kind": "link",
+        "label": "Reports",
+        "href": "#",
+        "index": 4
+      },
+      {
+        "id": "help-6",
+        "kind": "link",
+        "label": "Help",
+        "href": "#",
+        "index": 5
+      },
+      {
+        "id": "logout-7",
+        "kind": "link",
+        "label": "Logout",
+        "href": "#",
+        "index": 6
+      }
+    ]
+  },
+  {
+    "screenId": "9676a35267e94562bf80a73bb3b19665",
+    "title": "Inspection Operations - FieldLens Audit Q9M7",
+    "componentName": "InspectionOperationsFieldlensAuditQ9m7",
+    "file": "src/screens/InspectionOperationsFieldlensAuditQ9m7.tsx",
+    "buttons": 10,
+    "inputs": 1,
+    "links": 11,
+    "actions": [
+      {
+        "id": "button-1-1",
+        "kind": "button",
+        "label": "Button 1",
+        "index": 0
+      },
+      {
+        "id": "button-2-2",
+        "kind": "button",
+        "label": "Button 2",
+        "index": 1
+      },
+      {
+        "id": "button-3-3",
+        "kind": "button",
+        "label": "Button 3",
+        "index": 2
+      },
+      {
+        "id": "button-4-4",
+        "kind": "button",
+        "label": "Button 4",
+        "index": 3
+      },
+      {
+        "id": "refresh-5",
+        "kind": "button",
+        "label": "Refresh",
+        "index": 4
+      },
+      {
+        "id": "new-inspection-6",
+        "kind": "button",
+        "label": "New Inspection",
+        "index": 5
+      },
+      {
+        "id": "button-7-7",
+        "kind": "button",
+        "label": "Button 7",
+        "index": 6
+      },
+      {
+        "id": "button-8-8",
+        "kind": "button",
+        "label": "Button 8",
+        "index": 7
+      },
+      {
+        "id": "button-9-9",
+        "kind": "button",
+        "label": "Button 9",
+        "index": 8
+      },
+      {
+        "id": "button-10-10",
+        "kind": "button",
+        "label": "Button 10",
+        "index": 9
+      },
+      {
+        "id": "dashboard-1",
+        "kind": "link",
+        "label": "Dashboard",
+        "href": "#",
+        "index": 0
+      },
+      {
+        "id": "inspections-2",
+        "kind": "link",
+        "label": "Inspections",
+        "href": "#",
+        "index": 1
+      },
+      {
+        "id": "sites-3",
+        "kind": "link",
+        "label": "Sites",
+        "href": "#",
+        "index": 2
+      },
+      {
+        "id": "assets-4",
+        "kind": "link",
+        "label": "Assets",
+        "href": "#",
+        "index": 3
+      },
+      {
+        "id": "reports-5",
+        "kind": "link",
+        "label": "Reports",
+        "href": "#",
+        "index": 4
+      },
+      {
+        "id": "help-6",
+        "kind": "link",
+        "label": "Help",
+        "href": "#",
+        "index": 5
+      },
+      {
+        "id": "logout-7",
+        "kind": "link",
+        "label": "Logout",
+        "href": "#",
+        "index": 6
+      },
+      {
+        "id": "edit-8",
+        "kind": "link",
+        "label": "Edit",
+        "href": "#",
+        "index": 7
+      },
+      {
+        "id": "view-9",
+        "kind": "link",
+        "label": "View",
+        "href": "#",
+        "index": 8
+      },
+      {
+        "id": "edit-10",
+        "kind": "link",
+        "label": "Edit",
+        "href": "#",
+        "index": 9
+      },
+      {
+        "id": "view-11",
+        "kind": "link",
+        "label": "View",
+        "href": "#",
+        "index": 10
+      }
+    ]
+  },
+  {
+    "screenId": "66c9004626de4be58fbb0caca0235830",
+    "title": "Inspection Editor - FieldLens Audit Q9M7",
+    "componentName": "InspectionEditorFieldlensAuditQ9m7",
+    "file": "src/screens/InspectionEditorFieldlensAuditQ9m7.tsx",
+    "buttons": 19,
+    "inputs": 4,
+    "links": 7,
+    "actions": [
+      {
+        "id": "new-inspection-1",
+        "kind": "button",
+        "label": "New Inspection",
+        "index": 0
+      },
+      {
+        "id": "button-2-2",
+        "kind": "button",
+        "label": "Button 2",
+        "index": 1
+      },
+      {
+        "id": "button-3-3",
+        "kind": "button",
+        "label": "Button 3",
+        "index": 2
+      },
+      {
+        "id": "button-4-4",
+        "kind": "button",
+        "label": "Button 4",
+        "index": 3
+      },
+      {
+        "id": "button-5-5",
+        "kind": "button",
+        "label": "Button 5",
+        "index": 4
+      },
+      {
+        "id": "cancel-6",
+        "kind": "button",
+        "label": "Cancel",
+        "index": 5
+      },
+      {
+        "id": "save-inspection-7",
+        "kind": "button",
+        "label": "Save Inspection",
+        "index": 6
+      },
+      {
+        "id": "pass-8",
+        "kind": "button",
+        "label": "Pass",
+        "index": 7
+      },
+      {
+        "id": "fail-9",
+        "kind": "button",
+        "label": "Fail",
+        "index": 8
+      },
+      {
+        "id": "n-a-10",
+        "kind": "button",
+        "label": "N/A",
+        "index": 9
+      },
+      {
+        "id": "pass-11",
+        "kind": "button",
+        "label": "Pass",
+        "index": 10
+      },
+      {
+        "id": "fail-12",
+        "kind": "button",
+        "label": "Fail",
+        "index": 11
+      },
+      {
+        "id": "n-a-13",
+        "kind": "button",
+        "label": "N/A",
+        "index": 12
+      },
+      {
+        "id": "pass-14",
+        "kind": "button",
+        "label": "Pass",
+        "index": 13
+      },
+      {
+        "id": "fail-15",
+        "kind": "button",
+        "label": "Fail",
+        "index": 14
+      },
+      {
+        "id": "n-a-16",
+        "kind": "button",
+        "label": "N/A",
+        "index": 15
+      },
+      {
+        "id": "pass-17",
+        "kind": "button",
+        "label": "Pass",
+        "index": 16
+      },
+      {
+        "id": "fail-18",
+        "kind": "button",
+        "label": "Fail",
+        "index": 17
+      },
+      {
+        "id": "n-a-19",
+        "kind": "button",
+        "label": "N/A",
+        "index": 18
+      },
+      {
+        "id": "dashboard-1",
+        "kind": "link",
+        "label": "Dashboard",
+        "href": "#",
+        "index": 0
+      },
+      {
+        "id": "inspections-2",
+        "kind": "link",
+        "label": "Inspections",
+        "href": "#",
+        "index": 1
+      },
+      {
+        "id": "sites-3",
+        "kind": "link",
+        "label": "Sites",
+        "href": "#",
+        "index": 2
+      },
+      {
+        "id": "assets-4",
+        "kind": "link",
+        "label": "Assets",
+        "href": "#",
+        "index": 3
+      },
+      {
+        "id": "reports-5",
+        "kind": "link",
+        "label": "Reports",
+        "href": "#",
+        "index": 4
+      },
+      {
+        "id": "help-6",
+        "kind": "link",
+        "label": "Help",
+        "href": "#",
+        "index": 5
+      },
+      {
+        "id": "logout-7",
+        "kind": "link",
+        "label": "Logout",
+        "href": "#",
+        "index": 6
+      }
+    ]
+  }
+]
