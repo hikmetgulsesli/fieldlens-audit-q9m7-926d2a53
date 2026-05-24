@@ -127,7 +127,7 @@ export function InspectionOperationsFieldlensAuditQ9m7({ actions, counts, record
       </div>
       </nav>
       {/* Main Content Wrapper */}
-      <div className="flex-1 flex flex-col md:ml-60 md:w-[calc(100%-15rem)] h-full overflow-hidden min-w-0">
+      <div className="flex-1 flex flex-col md:ml-60 h-full overflow-hidden min-w-0">
       {/* TopAppBar (Shared Component) */}
       <header className="flex justify-between items-center px-margin-mobile md:px-margin-desktop w-full h-16 border-b border-outline-variant bg-surface-container-lowest dark:bg-surface-container-lowest transition-colors duration-200 ease-in-out shrink-0">
       {/* Brand / Mobile Menu (Hidden on Desktop since SideNav is present) */}
@@ -244,9 +244,9 @@ export function InspectionOperationsFieldlensAuditQ9m7({ actions, counts, record
       <tr className="border-b border-outline-variant bg-surface">
       <th className="p-md font-label-md text-label-md text-on-surface-variant uppercase font-semibold">ID</th>
       <th className="p-md font-label-md text-label-md text-on-surface-variant uppercase font-semibold">Site / Location</th>
-      <th className="p-md font-label-md text-label-md text-on-surface-variant uppercase font-semibold">Inspector</th>
+      <th className="hidden sm:table-cell p-md font-label-md text-label-md text-on-surface-variant uppercase font-semibold">Inspector</th>
       <th className="p-md font-label-md text-label-md text-on-surface-variant uppercase font-semibold">Status</th>
-      <th className="p-md font-label-md text-label-md text-on-surface-variant uppercase font-semibold">Last Activity</th>
+      <th className="hidden md:table-cell p-md font-label-md text-label-md text-on-surface-variant uppercase font-semibold">Last Activity</th>
       <th className="p-md font-label-md text-label-md text-on-surface-variant uppercase font-semibold text-right">Actions</th>
       </tr>
       </thead>
@@ -266,14 +266,14 @@ export function InspectionOperationsFieldlensAuditQ9m7({ actions, counts, record
                                               {record.asset}
                                           </div>
       </td>
-      <td className="p-md text-on-surface-variant">{record.inspector}</td>
+      <td className="hidden sm:table-cell p-md text-on-surface-variant">{record.inspector}</td>
       <td className="p-md">
       <span className={status.badge}>
       <Circle className="text-[14px]" aria-hidden={true} focusable="false" />
                                               {formatStatus(record.status)}
                                           </span>
       </td>
-      <td className="p-md text-on-surface-variant">{formatLastActivity(record.updatedAt)}</td>
+      <td className="hidden md:table-cell p-md text-on-surface-variant">{formatLastActivity(record.updatedAt)}</td>
       <td className="p-md text-right">
       <a className="font-label-md text-primary hover:underline" href="#" data-action-id={actionId} onClick={actions?.[actionId]}>{actionLabel}</a>
       </td>
