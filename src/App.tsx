@@ -16,11 +16,14 @@ const disabledAction = () => {};
 
 export default function App() {
   const { state, snapshot, actions } = useFieldLensAuditStore(records);
-  const openRecordAt = (index: number) => () => {
-    const record = state.records[index];
+  const openRecordAt = (rowIndex: number) => () => {
+    const record = state.records.find((_, index) => index === rowIndex);
     if (record) {
       actions.openEditor(record.id);
+      return;
     }
+
+    actions.openRecovery('That inspection row is not available in the local workspace.');
   };
 
   const navigationActions = {
