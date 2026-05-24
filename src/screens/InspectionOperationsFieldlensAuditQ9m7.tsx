@@ -8,27 +8,88 @@
 // 4. Replace placeholder data with props/state
 
 import { ChevronLeft, ChevronRight, Circle, ListFilter, Menu, Plus, RefreshCw, Search, Settings, TriangleAlert } from "lucide-react";
+import type { FieldLensCounts, FieldLensInspectionRecord, FieldLensInspectionStatus } from "../features/fieldlens-audit-q9m7/fieldlens-audit-q9m7.store";
 
 
 export type InspectionOperationsFieldlensAuditQ9m7ActionId = "button-1-1" | "button-2-2" | "button-3-3" | "button-4-4" | "refresh-5" | "new-inspection-6" | "button-7-7" | "button-8-8" | "button-9-9" | "button-10-10" | "dashboard-1" | "inspections-2" | "sites-3" | "assets-4" | "reports-5" | "help-6" | "logout-7" | "edit-8" | "view-9" | "edit-10" | "view-11";
 
 export interface InspectionOperationsFieldlensAuditQ9m7Props {
   actions?: Partial<Record<InspectionOperationsFieldlensAuditQ9m7ActionId, () => void>>;
+  counts?: FieldLensCounts;
+  records?: FieldLensInspectionRecord[];
+  total?: number;
 }
 
-export function InspectionOperationsFieldlensAuditQ9m7({ actions }: InspectionOperationsFieldlensAuditQ9m7Props) {
+const rowActionIds = ["edit-8", "view-9", "edit-10", "view-11"] as const;
+
+function formatMetric(value?: number) {
+  return (value ?? 0).toLocaleString();
+}
+
+function formatInspectionId(id: string) {
+  return id.startsWith("inspection-") ? `#${id.slice("inspection-".length).toUpperCase()}` : `#${id.toUpperCase()}`;
+}
+
+function formatStatus(status: FieldLensInspectionStatus) {
+  if (status === "in-progress") {
+    return "In Progress";
+  }
+
+  return status.charAt(0).toUpperCase() + status.slice(1);
+}
+
+function statusClasses(status: FieldLensInspectionStatus) {
+  if (status === "completed") {
+    return {
+      badge: "inline-flex items-center gap-xs px-2 py-1 rounded bg-[#dcfce7] text-[#166534] font-label-md text-label-md",
+      accent: "absolute left-0 top-0 bottom-0 w-[3px] bg-[#166534] hidden group-hover:block",
+    };
+  }
+
+  if (status === "scheduled") {
+    return {
+      badge: "inline-flex items-center gap-xs px-2 py-1 rounded bg-secondary-container text-primary-container font-label-md text-label-md",
+      accent: "absolute left-0 top-0 bottom-0 w-[3px] bg-primary hidden group-hover:block",
+    };
+  }
+
+  return {
+    badge: "inline-flex items-center gap-xs px-2 py-1 rounded bg-error-container text-on-error-container font-label-md text-label-md",
+    accent: "absolute left-0 top-0 bottom-0 w-[3px] bg-error hidden group-hover:block",
+  };
+}
+
+function formatLastActivity(value: string) {
+  const timestamp = Date.parse(value);
+  if (Number.isNaN(timestamp)) {
+    return value;
+  }
+
+  return new Intl.DateTimeFormat("en-US", {
+    month: "short",
+    day: "numeric",
+    hour: "numeric",
+    minute: "2-digit",
+  }).format(new Date(timestamp));
+}
+
+export function InspectionOperationsFieldlensAuditQ9m7({ actions, counts, records = [], total = records.length }: InspectionOperationsFieldlensAuditQ9m7Props) {
+  const visibleRows = records.slice(0, 4);
+  const openIssues = counts?.failedChecks ?? records.reduce((sum, record) => sum + record.checklist.filter((item) => item.result === "fail").length, 0);
+  const pendingSync = counts?.inProgress ?? records.filter((record) => record.status === "in-progress").length;
+  const displayedEnd = Math.min(visibleRows.length, total);
   return (
     <>
       {/* SideNavBar (Shared Component) */}
       <nav className="hidden md:flex flex-col h-full w-60 py-xl fixed left-0 top-0 bg-primary dark:bg-primary-container">
       {/* Header */}
-      <div className="px-md mb-xl flex items-center gap-md">
+      <button className="px-md mb-xl flex items-center gap-md" type="button" aria-label="Field Ops Site Audit Unit" data-action-id="dashboard-1" onClick={actions?.["dashboard-1"]}>
       <img alt="Organization Logo" className="w-10 h-10 rounded-lg" src="https://lh3.googleusercontent.com/aida-public/AB6AXuB6UINUqXLv_5Rf7ZQawgvPGdZM5b6Uv37trT7SRd-wh_VpVWritjLnRyYd7crZPNmsbNUYgIq0cpUXa7QvH7tosKj5cHqnEl0kN3MmUZ7M-2ZEqTqfiTRw7NLb5V8nhiIpHAetFDOUHFj0e3rH3e0nTAo4ibSubYRXybCrYSqWnL2fSEDLSBtvdzctfDujF8hDMNMw_DHMNX7n5jwpijlehtoBHYGaHOD_8f2_-NeO4C9CMIMDJuM7hH0Gs138nmIEzabZguGAGvM" />
       <div>
       <h1 className="font-headline-sm text-headline-sm font-bold text-on-primary dark:text-on-primary-container">Field Ops</h1>
       <p className="font-label-md text-label-md text-on-primary-container">Site Audit Unit</p>
       </div>
-      </div>
+      </button>
       {/* Navigation Tabs */}
       <div className="flex-1 px-sm flex flex-col gap-sm overflow-y-auto custom-scrollbar">
       {/* Active Tab: Dashboard */}
@@ -66,7 +127,7 @@ export function InspectionOperationsFieldlensAuditQ9m7({ actions }: InspectionOp
       </div>
       </nav>
       {/* Main Content Wrapper */}
-      <div className="flex-1 flex flex-col md:ml-60 h-full overflow-hidden">
+      <div className="flex-1 flex flex-col md:ml-60 h-full overflow-hidden min-w-0">
       {/* TopAppBar (Shared Component) */}
       <header className="flex justify-between items-center px-margin-mobile md:px-margin-desktop w-full h-16 border-b border-outline-variant bg-surface-container-lowest dark:bg-surface-container-lowest transition-colors duration-200 ease-in-out shrink-0">
       {/* Brand / Mobile Menu (Hidden on Desktop since SideNav is present) */}
@@ -99,7 +160,7 @@ export function InspectionOperationsFieldlensAuditQ9m7({ actions }: InspectionOp
       </div>
       </header>
       {/* Main Scrollable Canvas */}
-      <main className="flex-1 overflow-y-auto p-margin-mobile md:p-margin-desktop bg-surface-container-low">
+      <main className="flex-1 overflow-y-auto overflow-x-hidden p-margin-mobile md:p-margin-desktop bg-surface-container-low min-w-0">
       {/* Page Header & Action Bar */}
       <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center mb-xl gap-md">
       <div>
@@ -123,7 +184,7 @@ export function InspectionOperationsFieldlensAuditQ9m7({ actions }: InspectionOp
       <div className="bg-surface-container-lowest border border-outline-variant p-lg rounded-lg flex items-start justify-between">
       <div>
       <p className="font-label-md text-label-md text-on-surface-variant uppercase tracking-wider mb-sm">Total Inspections</p>
-      <p className="font-display-lg text-display-lg text-on-background">1,284</p>
+      <p className="font-display-lg text-display-lg text-on-background">{formatMetric(counts?.inspections ?? total)}</p>
       <div className="flex items-center gap-xs mt-sm text-on-tertiary-container">
       <Circle className="text-[16px]" aria-hidden={true} focusable="false" />
       <span className="font-label-sm text-label-sm">+12% this week</span>
@@ -138,7 +199,7 @@ export function InspectionOperationsFieldlensAuditQ9m7({ actions }: InspectionOp
       <div className="absolute left-0 top-0 bottom-0 w-[3px] bg-error"></div>
       <div className="pl-sm">
       <p className="font-label-md text-label-md text-on-surface-variant uppercase tracking-wider mb-sm">Open Issues</p>
-      <p className="font-display-lg text-display-lg text-on-background">47</p>
+      <p className="font-display-lg text-display-lg text-on-background">{formatMetric(openIssues)}</p>
       <div className="flex items-center gap-xs mt-sm text-error">
       <TriangleAlert className="text-[16px]" aria-hidden={true} focusable="false" />
       <span className="font-label-sm text-label-sm">Requires attention</span>
@@ -153,7 +214,7 @@ export function InspectionOperationsFieldlensAuditQ9m7({ actions }: InspectionOp
       <div className="absolute left-0 top-0 bottom-0 w-[3px] bg-[#f59e0b]"></div>
       <div className="pl-sm">
       <p className="font-label-md text-label-md text-on-surface-variant uppercase tracking-wider mb-sm">Pending Sync</p>
-      <p className="font-display-lg text-display-lg text-on-background">12</p>
+      <p className="font-display-lg text-display-lg text-on-background">{formatMetric(pendingSync)}</p>
       <div className="flex items-center gap-xs mt-sm text-on-surface-variant">
       <Circle className="text-[16px]" aria-hidden={true} focusable="false" />
       <span className="font-label-sm text-label-sm">Awaiting connectivity</span>
@@ -165,7 +226,7 @@ export function InspectionOperationsFieldlensAuditQ9m7({ actions }: InspectionOp
       </div>
       </div>
       {/* Primary Data Table */}
-      <div className="bg-surface-container-lowest border border-outline-variant rounded-lg overflow-hidden flex flex-col">
+      <div className="bg-surface-container-lowest border border-outline-variant rounded-lg overflow-hidden flex flex-col min-w-0">
       <div className="p-md border-b border-outline-variant flex justify-between items-center bg-surface">
       <h3 className="font-title-lg text-title-lg text-on-background">Recent Inspections</h3>
       <div className="flex items-center gap-sm">
@@ -177,118 +238,55 @@ export function InspectionOperationsFieldlensAuditQ9m7({ actions }: InspectionOp
       </button>
       </div>
       </div>
-      <div className="overflow-x-auto custom-scrollbar">
-      <table className="w-full text-left border-collapse">
+      <div className="overflow-x-auto custom-scrollbar max-w-full">
+      <table className="w-full table-fixed text-left border-collapse">
       <thead>
       <tr className="border-b border-outline-variant bg-surface">
       <th className="p-md font-label-md text-label-md text-on-surface-variant uppercase font-semibold">ID</th>
       <th className="p-md font-label-md text-label-md text-on-surface-variant uppercase font-semibold">Site / Location</th>
-      <th className="p-md font-label-md text-label-md text-on-surface-variant uppercase font-semibold">Inspector</th>
+      <th className="hidden sm:table-cell p-md font-label-md text-label-md text-on-surface-variant uppercase font-semibold">Inspector</th>
       <th className="p-md font-label-md text-label-md text-on-surface-variant uppercase font-semibold">Status</th>
-      <th className="p-md font-label-md text-label-md text-on-surface-variant uppercase font-semibold">Last Activity</th>
+      <th className="hidden md:table-cell p-md font-label-md text-label-md text-on-surface-variant uppercase font-semibold">Last Activity</th>
       <th className="p-md font-label-md text-label-md text-on-surface-variant uppercase font-semibold text-right">Actions</th>
       </tr>
       </thead>
       <tbody className="font-body-md text-body-md divide-y divide-outline-variant">
-      {/* Row 1 */}
-      <tr className="hover:bg-surface-container-low transition-colors relative group">
-      <td className="p-md font-label-md text-primary">#INSP-8821</td>
+      {visibleRows.map((record, index) => {
+        const status = statusClasses(record.status);
+        const actionId = rowActionIds[index];
+        const actionLabel = record.status === "completed" ? "View" : "Edit";
+
+        return (
+      <tr className="hover:bg-surface-container-low transition-colors relative group" key={record.id}>
+      <td className="p-md font-label-md text-primary">{formatInspectionId(record.id)}</td>
       <td className="p-md">
-      <div className="font-semibold text-on-background">Northwing Processing Plant</div>
+      <div className="font-semibold text-on-background">{record.site}</div>
       <div className="text-on-surface-variant text-[12px] mt-xs flex items-center gap-xs">
       <Circle className="text-[14px]" aria-hidden={true} focusable="false" />
-                                              Sector 4, Level B
+                                              {record.asset}
                                           </div>
       </td>
-      <td className="p-md text-on-surface-variant">J. Doe</td>
+      <td className="hidden sm:table-cell p-md text-on-surface-variant">{record.inspector}</td>
       <td className="p-md">
-      <span className="inline-flex items-center gap-xs px-2 py-1 rounded bg-secondary-container text-primary-container font-label-md text-label-md">
+      <span className={status.badge}>
       <Circle className="text-[14px]" aria-hidden={true} focusable="false" />
-                                              In Progress
+                                              {formatStatus(record.status)}
                                           </span>
       </td>
-      <td className="p-md text-on-surface-variant">10 mins ago</td>
+      <td className="hidden md:table-cell p-md text-on-surface-variant">{formatLastActivity(record.updatedAt)}</td>
       <td className="p-md text-right">
-      <a className="font-label-md text-primary hover:underline" href="#" data-action-id="edit-8" onClick={actions?.["edit-8"]}>Edit</a>
+      <a className="font-label-md text-primary hover:underline" href="#" data-action-id={actionId} onClick={actions?.[actionId]}>{actionLabel}</a>
       </td>
-      {/* Edge accent for status */}
-      <td className="absolute left-0 top-0 bottom-0 w-[3px] bg-primary hidden group-hover:block"></td>
+      <td className={status.accent}></td>
       </tr>
-      {/* Row 2 */}
-      <tr className="hover:bg-surface-container-low transition-colors relative group">
-      <td className="p-md font-label-md text-primary">#INSP-8820</td>
-      <td className="p-md">
-      <div className="font-semibold text-on-background">Generator Alpha Facility</div>
-      <div className="text-on-surface-variant text-[12px] mt-xs flex items-center gap-xs">
-      <Circle className="text-[14px]" aria-hidden={true} focusable="false" />
-                                              Main Floor
-                                          </div>
-      </td>
-      <td className="p-md text-on-surface-variant">A. Smith</td>
-      <td className="p-md">
-      <span className="inline-flex items-center gap-xs px-2 py-1 rounded bg-[#dcfce7] text-[#166534] font-label-md text-label-md">
-      <Circle className="text-[14px]" aria-hidden={true} focusable="false" />
-                                              Completed
-                                          </span>
-      </td>
-      <td className="p-md text-on-surface-variant">2 hrs ago</td>
-      <td className="p-md text-right">
-      <a className="font-label-md text-primary hover:underline" href="#" data-action-id="view-9" onClick={actions?.["view-9"]}>View</a>
-      </td>
-      <td className="absolute left-0 top-0 bottom-0 w-[3px] bg-[#166534] hidden group-hover:block"></td>
-      </tr>
-      {/* Row 3 */}
-      <tr className="hover:bg-surface-container-low transition-colors relative group">
-      <td className="p-md font-label-md text-primary">#INSP-8819</td>
-      <td className="p-md">
-      <div className="font-semibold text-on-background">Cooling Tower C</div>
-      <div className="text-on-surface-variant text-[12px] mt-xs flex items-center gap-xs">
-      <Circle className="text-[14px]" aria-hidden={true} focusable="false" />
-                                              Exterior Perimeter
-                                          </div>
-      </td>
-      <td className="p-md text-on-surface-variant">M. Chen</td>
-      <td className="p-md">
-      <span className="inline-flex items-center gap-xs px-2 py-1 rounded bg-error-container text-on-error-container font-label-md text-label-md">
-      <Circle className="text-[14px]" aria-hidden={true} focusable="false" />
-                                              Flagged
-                                          </span>
-      </td>
-      <td className="p-md text-on-surface-variant">Yesterday</td>
-      <td className="p-md text-right">
-      <a className="font-label-md text-primary hover:underline" href="#" data-action-id="edit-10" onClick={actions?.["edit-10"]}>Edit</a>
-      </td>
-      <td className="absolute left-0 top-0 bottom-0 w-[3px] bg-error hidden group-hover:block"></td>
-      </tr>
-      {/* Row 4 */}
-      <tr className="hover:bg-surface-container-low transition-colors relative group">
-      <td className="p-md font-label-md text-primary">#INSP-8818</td>
-      <td className="p-md">
-      <div className="font-semibold text-on-background">Storage Depot West</div>
-      <div className="text-on-surface-variant text-[12px] mt-xs flex items-center gap-xs">
-      <Circle className="text-[14px]" aria-hidden={true} focusable="false" />
-                                              Warehouse 3
-                                          </div>
-      </td>
-      <td className="p-md text-on-surface-variant">J. Doe</td>
-      <td className="p-md">
-      <span className="inline-flex items-center gap-xs px-2 py-1 rounded bg-[#dcfce7] text-[#166534] font-label-md text-label-md">
-      <Circle className="text-[14px]" aria-hidden={true} focusable="false" />
-                                              Completed
-                                          </span>
-      </td>
-      <td className="p-md text-on-surface-variant">Yesterday</td>
-      <td className="p-md text-right">
-      <a className="font-label-md text-primary hover:underline" href="#" data-action-id="view-11" onClick={actions?.["view-11"]}>View</a>
-      </td>
-      <td className="absolute left-0 top-0 bottom-0 w-[3px] bg-[#166534] hidden group-hover:block"></td>
-      </tr>
+        );
+      })}
       </tbody>
       </table>
       </div>
       {/* Pagination Footer */}
       <div className="p-md border-t border-outline-variant bg-surface flex items-center justify-between">
-      <span className="font-label-md text-label-md text-on-surface-variant">Showing 1 to 4 of 1,284 entries</span>
+      <span className="font-label-md text-label-md text-on-surface-variant">Showing {visibleRows.length ? 1 : 0} to {displayedEnd} of {formatMetric(total)} entries</span>
       <div className="flex items-center gap-xs">
       <button className="p-xs text-on-surface-variant hover:bg-surface-container-low rounded border border-outline-variant" disabled={true} type="button" data-action-id="button-9-9" onClick={actions?.["button-9-9"]}>
       <ChevronLeft className="text-[18px]" aria-hidden={true} focusable="false" />
