@@ -88,8 +88,21 @@ export const FIELDLENS_STORAGE_KEY = 'fieldlens-audit-q9m7:shell';
 
 const routes = new Set<FieldLensRoute>(['dashboard', 'inspections', 'sites', 'assets', 'reports', 'help']);
 const panels = new Set<FieldLensPanel>(['operations', 'editor', 'recovery']);
+const newInspectionDraft = {
+  site: 'Unassigned Site',
+  asset: 'New Asset',
+  inspector: 'Field Team',
+} as const;
 
 declare global {
+  interface ImportMetaEnv {
+    readonly PROD: boolean;
+  }
+
+  interface ImportMeta {
+    readonly env: ImportMetaEnv;
+  }
+
   interface Window {
     app?: FieldLensAppSnapshot;
   }
@@ -215,7 +228,16 @@ export function useFieldLensAuditStore(
   const snapshot = useMemo(() => getFieldLensSnapshot(state), [state]);
 
   useEffect(() => {
+    if (import.meta.env.PROD) {
+      return;
+    }
+
     window.app = snapshot;
+    return () => {
+      if (window.app === snapshot) {
+        delete window.app;
+      }
+    };
   }, [snapshot]);
 
   useEffect(() => {
@@ -281,12 +303,10 @@ export function useFieldLensAuditStore(
 
   const createInspection = useCallback(() => {
     setState((current) => {
-      const id = `inspection-${Date.now()}`;
+      const id = createInspectionId();
       const nextRecord: FieldLensInspectionRecord = {
         id,
-        site: 'Unassigned Site',
-        asset: 'New Asset',
-        inspector: 'Field Team',
+        ...newInspectionDraft,
         status: 'in-progress',
         priority: 'medium',
         updatedAt: new Date().toISOString(),
@@ -425,4 +445,13 @@ function normalizeRoute(value: unknown): FieldLensRoute | undefined {
 
 function normalizePanel(value: unknown): FieldLensPanel | undefined {
   return typeof value === 'string' && panels.has(value as FieldLensPanel) ? (value as FieldLensPanel) : undefined;
+}
+
+function createInspectionId(): string {
+  const randomUUID = globalThis.crypto?.randomUUID?.();
+  if (randomUUID) {
+    return `inspection-${randomUUID}`;
+  }
+
+  return `inspection-${Date.now()}-${Math.random().toString(36).slice(2, 10)}`;
 }

@@ -16,6 +16,12 @@ const disabledAction = () => {};
 
 export default function App() {
   const { state, snapshot, actions } = useFieldLensAuditStore(records);
+  const openRecordAt = (index: number) => () => {
+    const record = state.records[index];
+    if (record) {
+      actions.openEditor(record.id);
+    }
+  };
 
   const navigationActions = {
     'dashboard-1': () => actions.navigate('dashboard'),
@@ -39,10 +45,10 @@ export default function App() {
     'button-8-8': disabledAction,
     'button-9-9': disabledAction,
     'button-10-10': disabledAction,
-    'edit-8': () => actions.openEditor(),
-    'view-9': () => actions.openEditor(),
-    'edit-10': () => actions.openEditor(state.records[1]?.id),
-    'view-11': () => actions.openEditor(state.records[1]?.id),
+    'edit-8': openRecordAt(0),
+    'view-9': openRecordAt(0),
+    'edit-10': openRecordAt(1),
+    'view-11': openRecordAt(1),
   };
 
   const editorActions: Partial<Record<InspectionEditorFieldlensAuditQ9m7ActionId, () => void>> = {
