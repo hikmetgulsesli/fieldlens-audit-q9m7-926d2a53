@@ -1,0 +1,241 @@
+<!DOCTYPE html>
+
+<html lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>AuditGuard Pro - Error Recovery</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Hanken+Grotesk:wght@400;600;700&amp;family=JetBrains+Mono:wght@500&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    "colors": {
+                        "on-primary-container": "#8393b5",
+                        "on-tertiary-fixed-variant": "#005137",
+                        "outline-variant": "#c5c6ce",
+                        "on-tertiary-fixed": "#002114",
+                        "on-background": "#191c1e",
+                        "surface-container-low": "#f2f4f6",
+                        "error-container": "#ffdad6",
+                        "on-tertiary-container": "#27a577",
+                        "on-surface-variant": "#44474d",
+                        "on-secondary": "#ffffff",
+                        "surface-container-highest": "#e0e3e5",
+                        "surface-dim": "#d8dadc",
+                        "on-error-container": "#93000a",
+                        "secondary": "#515f74",
+                        "on-tertiary": "#ffffff",
+                        "surface-container": "#eceef0",
+                        "tertiary": "#001b10",
+                        "primary-container": "#1b2b48",
+                        "on-primary-fixed": "#091b37",
+                        "on-secondary-container": "#57657a",
+                        "surface-variant": "#e0e3e5",
+                        "on-primary-fixed-variant": "#374765",
+                        "secondary-container": "#d5e3fc",
+                        "primary": "#041632",
+                        "on-surface": "#191c1e",
+                        "on-secondary-fixed": "#0d1c2e",
+                        "on-primary": "#ffffff",
+                        "surface-bright": "#f7f9fb",
+                        "tertiary-container": "#003220",
+                        "background": "#f7f9fb",
+                        "surface-container-lowest": "#ffffff",
+                        "surface-tint": "#4f5e7e",
+                        "on-secondary-fixed-variant": "#3a485b",
+                        "on-error": "#ffffff",
+                        "secondary-fixed": "#d5e3fc",
+                        "inverse-primary": "#b7c7eb",
+                        "secondary-fixed-dim": "#b9c7df",
+                        "surface": "#f7f9fb",
+                        "tertiary-fixed": "#85f8c4",
+                        "inverse-on-surface": "#eff1f3",
+                        "inverse-surface": "#2d3133",
+                        "error": "#ba1a1a",
+                        "primary-fixed-dim": "#b7c7eb",
+                        "outline": "#75777e",
+                        "surface-container-high": "#e6e8ea",
+                        "primary-fixed": "#d7e2ff",
+                        "tertiary-fixed-dim": "#68dba9"
+                    },
+                    "borderRadius": {
+                        "DEFAULT": "0.125rem",
+                        "lg": "0.25rem",
+                        "xl": "0.5rem",
+                        "full": "0.75rem"
+                    },
+                    "spacing": {
+                        "gutter": "16px",
+                        "base": "4px",
+                        "margin-mobile": "16px",
+                        "margin-desktop": "32px",
+                        "xs": "4px",
+                        "lg": "24px",
+                        "xl": "32px",
+                        "md": "16px",
+                        "sm": "8px"
+                    },
+                    "fontFamily": {
+                        "display-lg": ["Hanken Grotesk"],
+                        "label-md": ["JetBrains Mono"],
+                        "headline-md": ["Hanken Grotesk"],
+                        "headline-sm": ["Hanken Grotesk"],
+                        "headline-lg-mobile": ["Hanken Grotesk"],
+                        "body-md": ["Hanken Grotesk"],
+                        "label-sm": ["JetBrains Mono"],
+                        "body-lg": ["Hanken Grotesk"],
+                        "title-lg": ["Hanken Grotesk"]
+                    },
+                    "fontSize": {
+                        "display-lg": ["36px", { "lineHeight": "44px", "letterSpacing": "-0.02em", "fontWeight": "700" }],
+                        "label-md": ["12px", { "lineHeight": "16px", "letterSpacing": "0.02em", "fontWeight": "500" }],
+                        "headline-md": ["24px", { "lineHeight": "32px", "letterSpacing": "-0.01em", "fontWeight": "600" }],
+                        "headline-sm": ["20px", { "lineHeight": "28px", "fontWeight": "600" }],
+                        "headline-lg-mobile": ["28px", { "lineHeight": "34px", "fontWeight": "700" }],
+                        "body-md": ["14px", { "lineHeight": "20px", "fontWeight": "400" }],
+                        "label-sm": ["10px", { "lineHeight": "14px", "letterSpacing": "0.04em", "fontWeight": "500" }],
+                        "body-lg": ["16px", { "lineHeight": "24px", "fontWeight": "400" }],
+                        "title-lg": ["18px", { "lineHeight": "24px", "fontWeight": "600" }]
+                    }
+                }
+            }
+        }
+    </script>
+</head>
+<body class="bg-background text-on-surface h-screen flex overflow-hidden">
+<!-- SideNavBar -->
+<nav class="hidden md:flex flex-col h-full w-60 py-xl bg-primary dark:bg-primary-container text-on-primary dark:text-on-primary-container font-body-md text-body-md fixed left-0 top-0 z-20">
+<div class="px-md mb-xl flex items-center gap-md">
+<div class="w-10 h-10 rounded-lg bg-surface-container-low flex items-center justify-center overflow-hidden">
+<img alt="Organization Logo" class="w-full h-full object-cover" data-alt="A small, stylized corporate logo featuring abstract geometric shapes in a bright white and light gray palette. Set against a clean, modern utilitarian background. The aesthetic is professional and structured, suitable for a technical field operations application." src="https://lh3.googleusercontent.com/aida-public/AB6AXuBfvzuGegMhtEcroZMVit2ddLfFD05wDdsS3Q4pJGTOa0AjhThrhX79vvTGEa6PXPE7vfsH7XRXFG5qoZctYunNYw6S5YrqBT4nmwenbBtMN-7sjGmFsECvnWiXyPyHXw4lndwXcOu9fjHLV20Wo3pkuWdoZYVRPFlrpY-OmeDxKUQydKasXi-l4eqCoNyS_PkwIy31S3zbiBAsVlq0OTKnc9oh0x2mSbiumDcbXn9L_bpXzcvxRBOuNd1y6l4Mp42IOvSavHQd7_U"/>
+</div>
+<div>
+<h1 class="font-headline-sm text-headline-sm font-bold text-on-primary dark:text-on-primary-container">Field Ops</h1>
+<p class="font-label-md text-label-md opacity-80">Site Audit Unit</p>
+</div>
+</div>
+<div class="px-md mb-lg">
+<button class="w-full bg-secondary-container text-primary-container hover:bg-secondary-fixed transition-colors duration-200 font-label-md text-label-md py-sm px-md rounded-lg flex items-center justify-center gap-sm font-bold">
+<span class="material-symbols-outlined text-[18px]">add</span>
+                New Inspection
+            </button>
+</div>
+<ul class="flex-1 px-sm space-y-xs">
+<li>
+<a class="flex items-center gap-md px-md py-sm rounded-lg text-on-primary-container opacity-80 hover:bg-on-primary-fixed-variant/50 transition-all duration-200" href="#">
+<span class="material-symbols-outlined">dashboard</span>
+<span>Dashboard</span>
+</a>
+</li>
+<li>
+<a class="flex items-center gap-md px-md py-sm rounded-lg bg-on-primary-fixed-variant text-on-primary font-bold transition-all duration-200" href="#">
+<span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 1;">fact_check</span>
+<span>Inspections</span>
+</a>
+</li>
+<li>
+<a class="flex items-center gap-md px-md py-sm rounded-lg text-on-primary-container opacity-80 hover:bg-on-primary-fixed-variant/50 transition-all duration-200" href="#">
+<span class="material-symbols-outlined">location_on</span>
+<span>Sites</span>
+</a>
+</li>
+<li>
+<a class="flex items-center gap-md px-md py-sm rounded-lg text-on-primary-container opacity-80 hover:bg-on-primary-fixed-variant/50 transition-all duration-200" href="#">
+<span class="material-symbols-outlined">inventory_2</span>
+<span>Assets</span>
+</a>
+</li>
+<li>
+<a class="flex items-center gap-md px-md py-sm rounded-lg text-on-primary-container opacity-80 hover:bg-on-primary-fixed-variant/50 transition-all duration-200" href="#">
+<span class="material-symbols-outlined">analytics</span>
+<span>Reports</span>
+</a>
+</li>
+</ul>
+<div class="mt-auto px-sm space-y-xs">
+<a class="flex items-center gap-md px-md py-sm rounded-lg text-on-primary-container opacity-80 hover:bg-on-primary-fixed-variant/50 transition-all duration-200" href="#">
+<span class="material-symbols-outlined">help</span>
+<span>Help</span>
+</a>
+<a class="flex items-center gap-md px-md py-sm rounded-lg text-on-primary-container opacity-80 hover:bg-on-primary-fixed-variant/50 transition-all duration-200" href="#">
+<span class="material-symbols-outlined">logout</span>
+<span>Logout</span>
+</a>
+</div>
+</nav>
+<!-- Main Content Area -->
+<div class="flex-1 flex flex-col md:ml-60 h-full w-full">
+<!-- TopAppBar -->
+<header class="w-full h-16 border-b border-outline-variant bg-surface-container-lowest dark:bg-surface-container-lowest flex justify-between items-center px-margin-desktop z-10 sticky top-0">
+<div class="flex items-center gap-lg">
+<!-- Mobile Menu Button -->
+<button class="md:hidden text-primary dark:text-primary-fixed">
+<span class="material-symbols-outlined">menu</span>
+</button>
+<div class="font-headline-md text-headline-md font-bold text-primary dark:text-primary-fixed">
+                    AuditGuard Pro
+                </div>
+</div>
+<div class="flex items-center gap-md">
+<div class="hidden sm:flex items-center border border-outline-variant rounded-lg bg-surface px-md py-xs focus-within:border-primary transition-colors duration-200">
+<span class="material-symbols-outlined text-outline mr-sm text-[18px]">search</span>
+<input class="bg-transparent border-none focus:ring-0 font-label-md text-label-md w-48 text-on-surface placeholder:text-outline-variant p-0" placeholder="Search inspections..." type="text"/>
+</div>
+<div class="flex items-center gap-xs ml-sm border-l border-outline-variant pl-md">
+<button class="w-8 h-8 rounded-full flex items-center justify-center text-on-surface-variant hover:bg-surface-container-low transition-colors duration-200 ease-in-out">
+<span class="material-symbols-outlined text-[20px]">notifications</span>
+</button>
+<button class="w-8 h-8 rounded-full flex items-center justify-center text-on-surface-variant hover:bg-surface-container-low transition-colors duration-200 ease-in-out">
+<span class="material-symbols-outlined text-[20px]">sync</span>
+</button>
+<button class="w-8 h-8 rounded-full flex items-center justify-center text-on-surface-variant hover:bg-surface-container-low transition-colors duration-200 ease-in-out">
+<span class="material-symbols-outlined text-[20px]">settings</span>
+</button>
+</div>
+<div class="ml-sm w-8 h-8 rounded-full bg-primary-container overflow-hidden border border-outline-variant cursor-pointer">
+<img alt="User profile avatar" class="w-full h-full object-cover" data-alt="A small, professional headshot of an individual in a bright outdoor setting, suitable for a corporate profile avatar. Crisp details, natural lighting, high-contrast, set within a utilitarian technical UI framework." src="https://lh3.googleusercontent.com/aida-public/AB6AXuBHtuhYEYagjCDe3aoA-EAZUCSakaH6WxPFQMjbgFd-25VXVeuIKkWH86eQI5Qdt6ckQATZE6eHPwJvx97274hgWnaez5w3OyT9DcKSqYKsYU9tbdPi2BNJ-fk3oP2HxesrukJ26EticzcO3HmPW_u5qKRodj3ohqHyWjRHUzVYIFLjABjDqVRG-IZ9sagA46PIHhgGqn0n47tZaw1J3qi1tuJ1JpyylgP7ErqHbJByga7DfX6RSIOioX7DMsbJEuIXxGTShc_eWo0"/>
+</div>
+</div>
+</header>
+<!-- Canvas Area - State Panel -->
+<main class="flex-1 overflow-y-auto p-margin-mobile md:p-margin-desktop bg-background flex items-center justify-center">
+<div class="w-full max-w-lg bg-surface-container-lowest border border-outline-variant rounded-xl p-xl flex flex-col items-center text-center shadow-sm relative overflow-hidden">
+<!-- Top Edge Accent (Neutral/Warning) -->
+<div class="absolute top-0 left-0 right-0 h-1 bg-surface-tint"></div>
+<!-- Icon Container with subtle radial background -->
+<div class="w-24 h-24 rounded-full bg-surface-container-low flex items-center justify-center mb-lg relative">
+<div class="absolute inset-0 rounded-full bg-secondary-container/20 animate-pulse"></div>
+<span class="material-symbols-outlined text-surface-tint text-[48px]" style="font-variation-settings: 'FILL' 1;">wifi_off</span>
+</div>
+<!-- Messaging -->
+<h2 class="font-headline-md text-headline-md text-on-surface mb-sm">Connection Interrupted</h2>
+<p class="font-body-md text-body-md text-on-surface-variant mb-xl max-w-sm">
+                    We're unable to sync your active inspection data with the central server. Please check your network connection or switch to offline mode to continue logging data locally.
+                </p>
+<!-- Data Entities Insight (Bento-style snippet) -->
+<div class="w-full bg-surface-container border border-outline-variant rounded-lg p-md mb-xl text-left flex items-start gap-md">
+<span class="material-symbols-outlined text-secondary mt-xs">info</span>
+<div>
+<p class="font-label-md text-label-md text-on-surface font-bold mb-xs">Pending Data:</p>
+<p class="font-body-md text-body-md text-on-surface-variant">2 Inspections and 5 ActivityEvents are cached locally and will sync automatically upon reconnection.</p>
+</div>
+</div>
+<!-- Actions -->
+<div class="flex flex-col sm:flex-row gap-md w-full justify-center">
+<button class="h-10 px-lg bg-surface-container-lowest border border-outline-variant text-on-surface-variant font-label-md text-label-md rounded-lg hover:bg-surface-container-low transition-colors flex items-center justify-center gap-sm">
+<span class="material-symbols-outlined text-[18px]">wifi_find</span>
+                        Work Offline
+                    </button>
+<button class="h-10 px-lg bg-primary-container text-on-primary font-label-md text-label-md rounded-lg hover:bg-on-primary-fixed-variant transition-colors flex items-center justify-center gap-sm">
+<span class="material-symbols-outlined text-[18px]">refresh</span>
+                        Retry Connection
+                    </button>
+</div>
+</div>
+</main>
+</div>
+</body></html>
