@@ -127,7 +127,7 @@ export function InspectionOperationsFieldlensAuditQ9m7({ actions, counts, record
       </div>
       </nav>
       {/* Main Content Wrapper */}
-      <div className="flex-1 flex flex-col md:ml-60 h-full overflow-hidden">
+      <div className="flex-1 flex flex-col md:ml-60 md:w-[calc(100%-15rem)] h-full overflow-hidden min-w-0">
       {/* TopAppBar (Shared Component) */}
       <header className="flex justify-between items-center px-margin-mobile md:px-margin-desktop w-full h-16 border-b border-outline-variant bg-surface-container-lowest dark:bg-surface-container-lowest transition-colors duration-200 ease-in-out shrink-0">
       {/* Brand / Mobile Menu (Hidden on Desktop since SideNav is present) */}
@@ -160,7 +160,7 @@ export function InspectionOperationsFieldlensAuditQ9m7({ actions, counts, record
       </div>
       </header>
       {/* Main Scrollable Canvas */}
-      <main className="flex-1 overflow-y-auto p-margin-mobile md:p-margin-desktop bg-surface-container-low">
+      <main className="flex-1 overflow-y-auto overflow-x-hidden p-margin-mobile md:p-margin-desktop bg-surface-container-low min-w-0">
       {/* Page Header & Action Bar */}
       <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center mb-xl gap-md">
       <div>
@@ -226,7 +226,7 @@ export function InspectionOperationsFieldlensAuditQ9m7({ actions, counts, record
       </div>
       </div>
       {/* Primary Data Table */}
-      <div className="bg-surface-container-lowest border border-outline-variant rounded-lg overflow-hidden flex flex-col">
+      <div className="bg-surface-container-lowest border border-outline-variant rounded-lg overflow-hidden flex flex-col min-w-0">
       <div className="p-md border-b border-outline-variant flex justify-between items-center bg-surface">
       <h3 className="font-title-lg text-title-lg text-on-background">Recent Inspections</h3>
       <div className="flex items-center gap-sm">
@@ -238,8 +238,8 @@ export function InspectionOperationsFieldlensAuditQ9m7({ actions, counts, record
       </button>
       </div>
       </div>
-      <div className="overflow-x-auto custom-scrollbar">
-      <table className="w-full text-left border-collapse">
+      <div className="overflow-x-auto custom-scrollbar max-w-full">
+      <table className="w-full table-fixed text-left border-collapse">
       <thead>
       <tr className="border-b border-outline-variant bg-surface">
       <th className="p-md font-label-md text-label-md text-on-surface-variant uppercase font-semibold">ID</th>
