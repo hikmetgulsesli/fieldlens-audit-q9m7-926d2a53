@@ -1,0 +1,824 @@
+[
+  {
+    "screenId": "03fdea6a00ef49028a56ff9d952e45c5",
+    "screenTitle": "Empty and Error Recovery - FieldLens Audit Q9M7",
+    "deviceType": "DESKTOP",
+    "elements": [
+      {
+        "type": "link",
+        "label": "dashboard",
+        "href": "#",
+        "line": 129
+      },
+      {
+        "type": "link",
+        "label": "Inspections",
+        "href": "#",
+        "line": 135
+      },
+      {
+        "type": "link",
+        "label": "Sites",
+        "href": "#",
+        "line": 141
+      },
+      {
+        "type": "link",
+        "label": "Assets",
+        "href": "#",
+        "line": 147
+      },
+      {
+        "type": "link",
+        "label": "Reports",
+        "href": "#",
+        "line": 153
+      },
+      {
+        "type": "link",
+        "label": "help",
+        "href": "#",
+        "line": 160
+      },
+      {
+        "type": "link",
+        "label": "logout",
+        "href": "#",
+        "line": 164
+      },
+      {
+        "type": "button",
+        "label": "New Inspection",
+        "line": 122
+      },
+      {
+        "type": "button",
+        "label": "menu",
+        "line": 176
+      },
+      {
+        "type": "button",
+        "label": "notifications",
+        "line": 189
+      },
+      {
+        "type": "button",
+        "label": "sync",
+        "line": 192
+      },
+      {
+        "type": "button",
+        "label": "settings",
+        "line": 195
+      },
+      {
+        "type": "button",
+        "label": "Work Offline",
+        "line": 229
+      },
+      {
+        "type": "button",
+        "label": "Retry Connection",
+        "line": 233
+      },
+      {
+        "type": "input",
+        "label": "Search inspections...",
+        "inputType": "text",
+        "placeholder": "Search inspections...",
+        "line": 186
+      }
+    ],
+    "navigation": [
+      {
+        "type": "link",
+        "label": "dashboard",
+        "href": "#",
+        "line": 129
+      },
+      {
+        "type": "link",
+        "label": "Inspections",
+        "href": "#",
+        "line": 135
+      },
+      {
+        "type": "link",
+        "label": "Sites",
+        "href": "#",
+        "line": 141
+      },
+      {
+        "type": "link",
+        "label": "Assets",
+        "href": "#",
+        "line": 147
+      },
+      {
+        "type": "link",
+        "label": "Reports",
+        "href": "#",
+        "line": 153
+      },
+      {
+        "type": "link",
+        "label": "help",
+        "href": "#",
+        "line": 160
+      },
+      {
+        "type": "link",
+        "label": "logout",
+        "href": "#",
+        "line": 164
+      }
+    ],
+    "buttons": [
+      {
+        "type": "button",
+        "label": "New Inspection",
+        "line": 122
+      },
+      {
+        "type": "button",
+        "label": "menu",
+        "line": 176
+      },
+      {
+        "type": "button",
+        "label": "notifications",
+        "line": 189
+      },
+      {
+        "type": "button",
+        "label": "sync",
+        "line": 192
+      },
+      {
+        "type": "button",
+        "label": "settings",
+        "line": 195
+      },
+      {
+        "type": "button",
+        "label": "Work Offline",
+        "line": 229
+      },
+      {
+        "type": "button",
+        "label": "Retry Connection",
+        "line": 233
+      }
+    ],
+    "inputs": [
+      {
+        "type": "input",
+        "label": "Search inspections...",
+        "inputType": "text",
+        "placeholder": "Search inspections...",
+        "line": 186
+      }
+    ],
+    "hardcodedData": [],
+    "totalInteractive": 15,
+    "requiresRouter": false,
+    "requiresDragDrop": false
+  },
+  {
+    "screenId": "9676a35267e94562bf80a73bb3b19665",
+    "screenTitle": "Inspection Operations - FieldLens Audit Q9M7",
+    "deviceType": "DESKTOP",
+    "elements": [
+      {
+        "type": "link",
+        "label": "dashboard",
+        "href": "#",
+        "line": 145
+      },
+      {
+        "type": "link",
+        "label": "Inspections",
+        "href": "#",
+        "line": 149
+      },
+      {
+        "type": "link",
+        "label": "Sites",
+        "href": "#",
+        "line": 153
+      },
+      {
+        "type": "link",
+        "label": "Assets",
+        "href": "#",
+        "line": 157
+      },
+      {
+        "type": "link",
+        "label": "Reports",
+        "href": "#",
+        "line": 161
+      },
+      {
+        "type": "link",
+        "label": "help",
+        "href": "#",
+        "line": 168
+      },
+      {
+        "type": "link",
+        "label": "logout",
+        "href": "#",
+        "line": 172
+      },
+      {
+        "type": "link",
+        "label": "Edit",
+        "href": "#",
+        "line": 322
+      },
+      {
+        "type": "link",
+        "label": "View",
+        "href": "#",
+        "line": 346
+      },
+      {
+        "type": "link",
+        "label": "Edit",
+        "href": "#",
+        "line": 369
+      },
+      {
+        "type": "link",
+        "label": "View",
+        "href": "#",
+        "line": 392
+      },
+      {
+        "type": "button",
+        "label": "menu",
+        "line": 184
+      },
+      {
+        "type": "button",
+        "label": "Notifications",
+        "line": 198
+      },
+      {
+        "type": "button",
+        "label": "Sync",
+        "line": 201
+      },
+      {
+        "type": "button",
+        "label": "Settings",
+        "line": 204
+      },
+      {
+        "type": "button",
+        "label": "refresh",
+        "line": 220
+      },
+      {
+        "type": "button",
+        "label": "New Inspection",
+        "line": 224
+      },
+      {
+        "type": "button",
+        "label": "Filter",
+        "line": 282
+      },
+      {
+        "type": "button",
+        "label": "Sort",
+        "line": 285
+      },
+      {
+        "type": "button",
+        "label": "chevron_left",
+        "line": 403
+      },
+      {
+        "type": "button",
+        "label": "chevron_right",
+        "line": 406
+      },
+      {
+        "type": "input",
+        "label": "Search inspections, sites, assets...",
+        "inputType": "text",
+        "placeholder": "Search inspections, sites, assets...",
+        "line": 193
+      }
+    ],
+    "navigation": [
+      {
+        "type": "link",
+        "label": "dashboard",
+        "href": "#",
+        "line": 145
+      },
+      {
+        "type": "link",
+        "label": "Inspections",
+        "href": "#",
+        "line": 149
+      },
+      {
+        "type": "link",
+        "label": "Sites",
+        "href": "#",
+        "line": 153
+      },
+      {
+        "type": "link",
+        "label": "Assets",
+        "href": "#",
+        "line": 157
+      },
+      {
+        "type": "link",
+        "label": "Reports",
+        "href": "#",
+        "line": 161
+      },
+      {
+        "type": "link",
+        "label": "help",
+        "href": "#",
+        "line": 168
+      },
+      {
+        "type": "link",
+        "label": "logout",
+        "href": "#",
+        "line": 172
+      },
+      {
+        "type": "link",
+        "label": "Edit",
+        "href": "#",
+        "line": 322
+      },
+      {
+        "type": "link",
+        "label": "View",
+        "href": "#",
+        "line": 346
+      },
+      {
+        "type": "link",
+        "label": "Edit",
+        "href": "#",
+        "line": 369
+      },
+      {
+        "type": "link",
+        "label": "View",
+        "href": "#",
+        "line": 392
+      }
+    ],
+    "buttons": [
+      {
+        "type": "button",
+        "label": "menu",
+        "line": 184
+      },
+      {
+        "type": "button",
+        "label": "Notifications",
+        "line": 198
+      },
+      {
+        "type": "button",
+        "label": "Sync",
+        "line": 201
+      },
+      {
+        "type": "button",
+        "label": "Settings",
+        "line": 204
+      },
+      {
+        "type": "button",
+        "label": "refresh",
+        "line": 220
+      },
+      {
+        "type": "button",
+        "label": "New Inspection",
+        "line": 224
+      },
+      {
+        "type": "button",
+        "label": "Filter",
+        "line": 282
+      },
+      {
+        "type": "button",
+        "label": "Sort",
+        "line": 285
+      },
+      {
+        "type": "button",
+        "label": "chevron_left",
+        "line": 403
+      },
+      {
+        "type": "button",
+        "label": "chevron_right",
+        "line": 406
+      }
+    ],
+    "inputs": [
+      {
+        "type": "input",
+        "label": "Search inspections, sites, assets...",
+        "inputType": "text",
+        "placeholder": "Search inspections, sites, assets...",
+        "line": 193
+      }
+    ],
+    "hardcodedData": [],
+    "totalInteractive": 22,
+    "requiresRouter": false,
+    "requiresDragDrop": false
+  },
+  {
+    "screenId": "66c9004626de4be58fbb0caca0235830",
+    "screenTitle": "Inspection Editor - FieldLens Audit Q9M7",
+    "deviceType": "DESKTOP",
+    "elements": [
+      {
+        "type": "link",
+        "label": "dashboard",
+        "href": "#",
+        "line": 158
+      },
+      {
+        "type": "link",
+        "label": "Inspections",
+        "href": "#",
+        "line": 163
+      },
+      {
+        "type": "link",
+        "label": "Sites",
+        "href": "#",
+        "line": 167
+      },
+      {
+        "type": "link",
+        "label": "Assets",
+        "href": "#",
+        "line": 171
+      },
+      {
+        "type": "link",
+        "label": "Reports",
+        "href": "#",
+        "line": 175
+      },
+      {
+        "type": "link",
+        "label": "help",
+        "href": "#",
+        "line": 182
+      },
+      {
+        "type": "link",
+        "label": "logout",
+        "href": "#",
+        "line": 186
+      },
+      {
+        "type": "button",
+        "label": "New Inspection",
+        "line": 151
+      },
+      {
+        "type": "button",
+        "label": "notifications",
+        "line": 205
+      },
+      {
+        "type": "button",
+        "label": "sync",
+        "line": 208
+      },
+      {
+        "type": "button",
+        "label": "settings",
+        "line": 211
+      },
+      {
+        "type": "button",
+        "label": "Back to list",
+        "line": 226
+      },
+      {
+        "type": "button",
+        "label": "Cancel",
+        "line": 241
+      },
+      {
+        "type": "button",
+        "label": "Inspection",
+        "line": 244
+      },
+      {
+        "type": "button",
+        "label": "Pass",
+        "line": 338
+      },
+      {
+        "type": "button",
+        "label": "Fail",
+        "line": 341
+      },
+      {
+        "type": "button",
+        "label": "N/A",
+        "line": 344
+      },
+      {
+        "type": "button",
+        "label": "Pass",
+        "line": 359
+      },
+      {
+        "type": "button",
+        "label": "Fail",
+        "line": 362
+      },
+      {
+        "type": "button",
+        "label": "N/A",
+        "line": 365
+      },
+      {
+        "type": "button",
+        "label": "Pass",
+        "line": 377
+      },
+      {
+        "type": "button",
+        "label": "Fail",
+        "line": 380
+      },
+      {
+        "type": "button",
+        "label": "N/A",
+        "line": 383
+      },
+      {
+        "type": "button",
+        "label": "Pass",
+        "line": 395
+      },
+      {
+        "type": "button",
+        "label": "Fail",
+        "line": 398
+      },
+      {
+        "type": "button",
+        "label": "N/A",
+        "line": 401
+      },
+      {
+        "type": "input",
+        "label": "Search audits, sites...",
+        "inputType": "text",
+        "placeholder": "Search audits, sites...",
+        "line": 200
+      },
+      {
+        "type": "input",
+        "label": "e.g., Q3 Safety Walkthrough",
+        "inputType": "text",
+        "placeholder": "e.g., Q3 Safety Walkthrough",
+        "line": 269
+      },
+      {
+        "type": "input",
+        "label": "select",
+        "inputType": "select",
+        "line": 281
+      },
+      {
+        "type": "input",
+        "label": "text",
+        "inputType": "text",
+        "line": 297
+      },
+      {
+        "type": "input",
+        "label": "date",
+        "inputType": "date",
+        "line": 307
+      },
+      {
+        "type": "input",
+        "label": "Log detailed findings here. For failed items, mandate corrective actions...",
+        "inputType": "textarea",
+        "placeholder": "Log detailed findings here. For failed items, mandate corrective actions...",
+        "line": 417
+      },
+      {
+        "type": "form",
+        "label": "form",
+        "line": 251
+      }
+    ],
+    "navigation": [
+      {
+        "type": "link",
+        "label": "dashboard",
+        "href": "#",
+        "line": 158
+      },
+      {
+        "type": "link",
+        "label": "Inspections",
+        "href": "#",
+        "line": 163
+      },
+      {
+        "type": "link",
+        "label": "Sites",
+        "href": "#",
+        "line": 167
+      },
+      {
+        "type": "link",
+        "label": "Assets",
+        "href": "#",
+        "line": 171
+      },
+      {
+        "type": "link",
+        "label": "Reports",
+        "href": "#",
+        "line": 175
+      },
+      {
+        "type": "link",
+        "label": "help",
+        "href": "#",
+        "line": 182
+      },
+      {
+        "type": "link",
+        "label": "logout",
+        "href": "#",
+        "line": 186
+      }
+    ],
+    "buttons": [
+      {
+        "type": "button",
+        "label": "New Inspection",
+        "line": 151
+      },
+      {
+        "type": "button",
+        "label": "notifications",
+        "line": 205
+      },
+      {
+        "type": "button",
+        "label": "sync",
+        "line": 208
+      },
+      {
+        "type": "button",
+        "label": "settings",
+        "line": 211
+      },
+      {
+        "type": "button",
+        "label": "Back to list",
+        "line": 226
+      },
+      {
+        "type": "button",
+        "label": "Cancel",
+        "line": 241
+      },
+      {
+        "type": "button",
+        "label": "Inspection",
+        "line": 244
+      },
+      {
+        "type": "button",
+        "label": "Pass",
+        "line": 338
+      },
+      {
+        "type": "button",
+        "label": "Fail",
+        "line": 341
+      },
+      {
+        "type": "button",
+        "label": "N/A",
+        "line": 344
+      },
+      {
+        "type": "button",
+        "label": "Pass",
+        "line": 359
+      },
+      {
+        "type": "button",
+        "label": "Fail",
+        "line": 362
+      },
+      {
+        "type": "button",
+        "label": "N/A",
+        "line": 365
+      },
+      {
+        "type": "button",
+        "label": "Pass",
+        "line": 377
+      },
+      {
+        "type": "button",
+        "label": "Fail",
+        "line": 380
+      },
+      {
+        "type": "button",
+        "label": "N/A",
+        "line": 383
+      },
+      {
+        "type": "button",
+        "label": "Pass",
+        "line": 395
+      },
+      {
+        "type": "button",
+        "label": "Fail",
+        "line": 398
+      },
+      {
+        "type": "button",
+        "label": "N/A",
+        "line": 401
+      }
+    ],
+    "inputs": [
+      {
+        "type": "input",
+        "label": "Search audits, sites...",
+        "inputType": "text",
+        "placeholder": "Search audits, sites...",
+        "line": 200
+      },
+      {
+        "type": "input",
+        "label": "e.g., Q3 Safety Walkthrough",
+        "inputType": "text",
+        "placeholder": "e.g., Q3 Safety Walkthrough",
+        "line": 269
+      },
+      {
+        "type": "input",
+        "label": "select",
+        "inputType": "select",
+        "line": 281
+      },
+      {
+        "type": "input",
+        "label": "text",
+        "inputType": "text",
+        "line": 297
+      },
+      {
+        "type": "input",
+        "label": "date",
+        "inputType": "date",
+        "line": 307
+      },
+      {
+        "type": "input",
+        "label": "Log detailed findings here. For failed items, mandate corrective actions...",
+        "inputType": "textarea",
+        "placeholder": "Log detailed findings here. For failed items, mandate corrective actions...",
+        "line": 417
+      }
+    ],
+    "hardcodedData": [],
+    "totalInteractive": 33,
+    "requiresRouter": false,
+    "requiresDragDrop": true
+  }
+]
