@@ -22,13 +22,13 @@ export function InspectionOperationsFieldlensAuditQ9m7({ actions }: InspectionOp
       {/* SideNavBar (Shared Component) */}
       <nav className="hidden md:flex flex-col h-full w-60 py-xl fixed left-0 top-0 bg-primary dark:bg-primary-container">
       {/* Header */}
-      <div className="px-md mb-xl flex items-center gap-md">
+      <button className="px-md mb-xl flex items-center gap-md" type="button" aria-label="Field Ops Site Audit Unit" data-action-id="dashboard-1" onClick={actions?.["dashboard-1"]}>
       <img alt="Organization Logo" className="w-10 h-10 rounded-lg" src="https://lh3.googleusercontent.com/aida-public/AB6AXuB6UINUqXLv_5Rf7ZQawgvPGdZM5b6Uv37trT7SRd-wh_VpVWritjLnRyYd7crZPNmsbNUYgIq0cpUXa7QvH7tosKj5cHqnEl0kN3MmUZ7M-2ZEqTqfiTRw7NLb5V8nhiIpHAetFDOUHFj0e3rH3e0nTAo4ibSubYRXybCrYSqWnL2fSEDLSBtvdzctfDujF8hDMNMw_DHMNX7n5jwpijlehtoBHYGaHOD_8f2_-NeO4C9CMIMDJuM7hH0Gs138nmIEzabZguGAGvM" />
       <div>
       <h1 className="font-headline-sm text-headline-sm font-bold text-on-primary dark:text-on-primary-container">Field Ops</h1>
       <p className="font-label-md text-label-md text-on-primary-container">Site Audit Unit</p>
       </div>
-      </div>
+      </button>
       {/* Navigation Tabs */}
       <div className="flex-1 px-sm flex flex-col gap-sm overflow-y-auto custom-scrollbar">
       {/* Active Tab: Dashboard */}

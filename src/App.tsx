@@ -8,6 +8,12 @@ import {
 } from './screens';
 import { createFieldLensAuditRepository } from './features/fieldlens-audit-q9m7/fieldlens-audit-q9m7.repo';
 import { useFieldLensAuditStore, type FieldLensRoute } from './features/fieldlens-audit-q9m7/fieldlens-audit-q9m7.store';
+import { createCancelInspectionEditAction } from './features/surf-inspection-editor/act_cancel_edit';
+import { createSaveInspectionRecordAction } from './features/surf-inspection-editor/act_save_record';
+import { createInspectionRecordAction } from './features/surf-inspection-operations/act_create_record';
+import { createRetryInspectionLoadAction } from './features/surf-inspection-operations/act_retry_load';
+import { searchInspectionRecords } from './features/surf-inspection-operations/act_search_records';
+import { createSelectInspectionRecordAction } from './features/surf-inspection-operations/act_select_record';
 
 const repository = createFieldLensAuditRepository();
 const records = repository.listInspections();
@@ -16,14 +22,17 @@ const disabledAction = () => {};
 
 export default function App() {
   const { state, snapshot, actions } = useFieldLensAuditStore(records);
+  const visibleRecords = searchInspectionRecords(state.records, '');
+  const createInspection = createInspectionRecordAction(actions);
+  const refreshInspectionLoad = createRetryInspectionLoadAction(actions);
+  const selectInspectionRecord = createSelectInspectionRecordAction({
+    records: visibleRecords.records,
+    actions,
+  });
+  const saveInspectionRecord = createSaveInspectionRecordAction(actions);
+  const cancelInspectionEdit = createCancelInspectionEditAction(actions);
   const openRecordAt = (rowIndex: number) => () => {
-    const record = state.records.find((_, index) => index === rowIndex);
-    if (record) {
-      actions.openEditor(record.id);
-      return;
-    }
-
-    actions.openRecovery('That inspection row is not available in the local workspace.');
+    selectInspectionRecord(rowIndex);
   };
 
   const navigationActions = {
@@ -42,8 +51,8 @@ export default function App() {
     'button-2-2': disabledAction,
     'button-3-3': disabledAction,
     'button-4-4': disabledAction,
-    'refresh-5': actions.refresh,
-    'new-inspection-6': actions.createInspection,
+    'refresh-5': refreshInspectionLoad,
+    'new-inspection-6': createInspection,
     'button-7-7': disabledAction,
     'button-8-8': disabledAction,
     'button-9-9': disabledAction,
@@ -56,13 +65,13 @@ export default function App() {
 
   const editorActions: Partial<Record<InspectionEditorFieldlensAuditQ9m7ActionId, () => void>> = {
     ...navigationActions,
-    'new-inspection-1': actions.createInspection,
+    'new-inspection-1': createInspection,
     'button-2-2': disabledAction,
     'button-3-3': disabledAction,
     'button-4-4': disabledAction,
     'button-5-5': disabledAction,
-    'cancel-6': actions.cancelEditing,
-    'save-inspection-7': actions.saveInspection,
+    'cancel-6': cancelInspectionEdit,
+    'save-inspection-7': saveInspectionRecord,
     'pass-8': () => actions.updateChecklistResult('ppe', 'pass'),
     'fail-9': () => actions.updateChecklistResult('ppe', 'fail'),
     'n-a-10': () => actions.updateChecklistResult('ppe', 'na'),
@@ -79,7 +88,7 @@ export default function App() {
 
   const recoveryActions: Partial<Record<EmptyAndErrorRecoveryFieldlensAuditQ9m7ActionId, () => void>> = {
     ...navigationActions,
-    'new-inspection-1': actions.createInspection,
+    'new-inspection-1': createInspection,
     'button-2-2': disabledAction,
     'button-3-3': disabledAction,
     'button-4-4': disabledAction,
