@@ -18,8 +18,6 @@ import { createSelectInspectionRecordAction } from './features/surf-inspection-o
 const repository = createFieldLensAuditRepository();
 const records = repository.listInspections();
 
-const disabledAction = () => {};
-
 export default function App() {
   const { state, snapshot, actions } = useFieldLensAuditStore(records);
   const visibleRecords = searchInspectionRecords(state.records, '');
@@ -31,6 +29,12 @@ export default function App() {
   });
   const saveInspectionRecord = createSaveInspectionRecordAction(actions);
   const cancelInspectionEdit = createCancelInspectionEditAction(actions);
+  const showNotifications = () => actions.openRecovery('No pending inspection alerts in the local workspace.');
+  const openSettings = () => actions.navigate('help');
+  const applyInspectionFilter = () => actions.navigate('inspections');
+  const applyInspectionSort = () => actions.refresh();
+  const previousInspectionPage = () => actions.refresh();
+  const nextInspectionPage = () => actions.openRecovery('No additional inspection routes are cached locally.');
   const openRecordAt = (rowIndex: number) => () => {
     selectInspectionRecord(rowIndex);
   };
@@ -47,16 +51,16 @@ export default function App() {
 
   const operationsActions: Partial<Record<InspectionOperationsFieldlensAuditQ9m7ActionId, () => void>> = {
     ...navigationActions,
-    'button-1-1': disabledAction,
-    'button-2-2': disabledAction,
-    'button-3-3': disabledAction,
-    'button-4-4': disabledAction,
+    'button-1-1': () => actions.navigate('dashboard'),
+    'button-2-2': showNotifications,
+    'button-3-3': refreshInspectionLoad,
+    'button-4-4': openSettings,
     'refresh-5': refreshInspectionLoad,
     'new-inspection-6': createInspection,
-    'button-7-7': disabledAction,
-    'button-8-8': disabledAction,
-    'button-9-9': disabledAction,
-    'button-10-10': disabledAction,
+    'button-7-7': applyInspectionFilter,
+    'button-8-8': applyInspectionSort,
+    'button-9-9': previousInspectionPage,
+    'button-10-10': nextInspectionPage,
     'edit-8': openRecordAt(0),
     'view-9': openRecordAt(0),
     'edit-10': openRecordAt(1),
@@ -66,10 +70,10 @@ export default function App() {
   const editorActions: Partial<Record<InspectionEditorFieldlensAuditQ9m7ActionId, () => void>> = {
     ...navigationActions,
     'new-inspection-1': createInspection,
-    'button-2-2': disabledAction,
-    'button-3-3': disabledAction,
-    'button-4-4': disabledAction,
-    'button-5-5': disabledAction,
+    'button-2-2': showNotifications,
+    'button-3-3': refreshInspectionLoad,
+    'button-4-4': openSettings,
+    'button-5-5': cancelInspectionEdit,
     'cancel-6': cancelInspectionEdit,
     'save-inspection-7': saveInspectionRecord,
     'pass-8': () => actions.updateChecklistResult('ppe', 'pass'),
@@ -89,10 +93,10 @@ export default function App() {
   const recoveryActions: Partial<Record<EmptyAndErrorRecoveryFieldlensAuditQ9m7ActionId, () => void>> = {
     ...navigationActions,
     'new-inspection-1': createInspection,
-    'button-2-2': disabledAction,
-    'button-3-3': disabledAction,
-    'button-4-4': disabledAction,
-    'button-5-5': disabledAction,
+    'button-2-2': showNotifications,
+    'button-3-3': refreshInspectionLoad,
+    'button-4-4': openSettings,
+    'button-5-5': cancelInspectionEdit,
     'work-offline-6': actions.workOffline,
     'retry-connection-7': actions.retryConnection,
   };
