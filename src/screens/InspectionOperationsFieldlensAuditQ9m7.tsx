@@ -127,7 +127,7 @@ export function InspectionOperationsFieldlensAuditQ9m7({ actions, counts, record
       </div>
       </nav>
       {/* Main Content Wrapper */}
-      <div className="flex-1 flex flex-col md:ml-60 md:w-[calc(100%-15rem)] h-full overflow-hidden">
+      <div className="flex-1 flex flex-col md:ml-60 h-full overflow-hidden">
       {/* TopAppBar (Shared Component) */}
       <header className="flex justify-between items-center px-margin-mobile md:px-margin-desktop w-full h-16 border-b border-outline-variant bg-surface-container-lowest dark:bg-surface-container-lowest transition-colors duration-200 ease-in-out shrink-0">
       {/* Brand / Mobile Menu (Hidden on Desktop since SideNav is present) */}
