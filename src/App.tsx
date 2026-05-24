@@ -12,6 +12,8 @@ import { useFieldLensAuditStore, type FieldLensRoute } from './features/fieldlen
 const repository = createFieldLensAuditRepository();
 const records = repository.listInspections();
 
+const disabledAction = () => {};
+
 export default function App() {
   const { state, snapshot, actions } = useFieldLensAuditStore(records);
 
@@ -27,8 +29,16 @@ export default function App() {
 
   const operationsActions: Partial<Record<InspectionOperationsFieldlensAuditQ9m7ActionId, () => void>> = {
     ...navigationActions,
+    'button-1-1': disabledAction,
+    'button-2-2': disabledAction,
+    'button-3-3': disabledAction,
+    'button-4-4': disabledAction,
     'refresh-5': actions.refresh,
     'new-inspection-6': actions.createInspection,
+    'button-7-7': disabledAction,
+    'button-8-8': disabledAction,
+    'button-9-9': disabledAction,
+    'button-10-10': disabledAction,
     'edit-8': () => actions.openEditor(),
     'view-9': () => actions.openEditor(),
     'edit-10': () => actions.openEditor(state.records[1]?.id),
@@ -38,6 +48,10 @@ export default function App() {
   const editorActions: Partial<Record<InspectionEditorFieldlensAuditQ9m7ActionId, () => void>> = {
     ...navigationActions,
     'new-inspection-1': actions.createInspection,
+    'button-2-2': disabledAction,
+    'button-3-3': disabledAction,
+    'button-4-4': disabledAction,
+    'button-5-5': disabledAction,
     'cancel-6': actions.cancelEditing,
     'save-inspection-7': actions.saveInspection,
     'pass-8': () => actions.updateChecklistResult('ppe', 'pass'),
@@ -57,6 +71,10 @@ export default function App() {
   const recoveryActions: Partial<Record<EmptyAndErrorRecoveryFieldlensAuditQ9m7ActionId, () => void>> = {
     ...navigationActions,
     'new-inspection-1': actions.createInspection,
+    'button-2-2': disabledAction,
+    'button-3-3': disabledAction,
+    'button-4-4': disabledAction,
+    'button-5-5': disabledAction,
     'work-offline-6': actions.workOffline,
     'retry-connection-7': actions.retryConnection,
   };
